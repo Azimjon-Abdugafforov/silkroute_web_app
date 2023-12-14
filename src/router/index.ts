@@ -12,13 +12,13 @@ import Employee from '@/views/Employee/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: "/login",
     name: "Login",
     component: Login,
     meta: { layout: "empty" },
   },
   {
-    path: "/dashboard",
+    path: "/",
     name: "Dashboard",
     component: Dashboard,
   },

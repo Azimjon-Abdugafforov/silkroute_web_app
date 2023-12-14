@@ -13,6 +13,7 @@ const activeClass = ref(
 const inactiveClass = ref(
   "border-blue-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100"
 );
+
 const { isOpen } = useSidebar();
 </script>
 
@@ -30,11 +31,7 @@ const { isOpen } = useSidebar();
     >
       <div class="flex items-center justify-center mt-8">
         <div class="flex items-center">
-          <!-- <img
-            src="../assets/image.png"
-            class="mx-auto"
-            style="max-width: 90%"
-          /> -->
+         
           <img src="../assets/silkroad.png" class="w-200" />
         </div>
       </div>
