@@ -34,7 +34,7 @@
     <div class="border flex">
       <div
         :class="isOpen ? 'block opacity-100 transition-opacity duration-2000' : 'hidden opacity-0 transition-opacity duration-2000'"
-        @click="isOpen = false" class="fixed inset-0 z-20 bg-red lg:hidden">
+        @click="isOpen = false" class="fixed inset-0 z-50 bg-red lg:hidden">
         <div
           :class="isOpen ? 'translate-x-0 ease-out transition-transform duration-2000' : '-translate-x-full ease-in transition-transform duration-2000'"
           class="fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transform bg-sky-600 lg:translate-x-0 lg:static lg:inset-0">

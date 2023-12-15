@@ -31,7 +31,6 @@ const { isOpen } = useSidebar();
     >
       <div class="flex items-center justify-center mt-8">
         <div class="flex items-center">
-         
           <img src="../assets/silkroad.png" class="w-200" />
         </div>
       </div>
