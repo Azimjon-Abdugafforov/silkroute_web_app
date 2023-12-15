@@ -9,7 +9,7 @@ import Card from "../views/CardView.vue";
 import Blank from "../views/BlankView.vue";
 import NotFound from "../views/NotFound.vue";
 import Employee from '@/views/Employee/index.vue'
-
+import CreateOrder from "@/views/Order/CreateOrder.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/login",
@@ -57,6 +57,12 @@ const routes: Array<RouteRecordRaw> = [
     path: "/blank",
     name: "Blank",
     component: Blank,
+  },
+  {
+    path:'/create-order',
+    name:'order',
+    component: CreateOrder,
+    meta: {layout: "empty"}
   },
   { path: "/:pathMatch(.*)*", component: NotFound },
 ];
