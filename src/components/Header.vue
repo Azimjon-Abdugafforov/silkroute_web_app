@@ -54,7 +54,7 @@
     </div>
     <!-- the end of the sidebar -->
     <div class="flex items-center ml-3">
-      <div class="relative">
+      <div class="relative ">
         <button @click="dropdownOpen = !dropdownOpen"
           class="relative z-10 block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none">
           <img class="object-cover w-full h-full"
@@ -62,12 +62,12 @@
             alt="Your avatar" />
         </button>
 
-        <div v-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 z-10 w-full h-full"></div>
+        <!-- <div v-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 z-index w-full h-full border"></div> -->
 
-        <transition enter-active-class="transition duration-150 ease-out transform" enter-from-class="scale-95 opacity-0"
+        <transition enter-active-class="transition duration-150 z-50 ease-out transform" enter-from-class="scale-95 opacity-0"
           enter-to-class="scale-100 opacity-100" leave-active-class="transition duration-150 ease-in transform"
           leave-from-class="scale-100 opacity-100" leave-to-class="scale-95 opacity-0">
-          <div v-show="dropdownOpen" class="absolute right-0 z-20 w-48 py-1 mt-2 bg-white rounded-lg shadow-xl">
+          <div v-show="dropdownOpen" class="absolute right-0  w-48 py-1 mt-2 bg-white rounded-lg shadow-xl">
             <a href="#" class="px-4 py-2 flex rounded-md text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
@@ -142,3 +142,6 @@ const navbarRoutes = [
 
 ];
 </script>
+<style scoped>
+
+</style>
