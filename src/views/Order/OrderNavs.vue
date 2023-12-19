@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-[100vh] flex wrapper ">
-    <div class="w-full mx-auto md:px-10   pb-4  shadow-md">
+    <div class="w-full mx-auto md:px-10  pb-2 header-shadow shadow-md">
       <button @click="routePush()"
         class="border-opacity-30 translate-y-10 px-4  text-sky-600 uppercase text-sm flex items-center hover:text-sky-700 transition duration-500 ">
         <Icon icon="typcn:arrow-back" class="w-5 h-5" />
@@ -9,20 +9,20 @@
         </div>
       </button>
       <div class="md:px-10 max-md:w-12/12 2xl:w-12/12  flex justify-center  max-sm:w-[100%]  xl:w-12/12 max-sm:w-12/12">
-        <a @click="backtoMain" class="cursor-pointer"> <img src="../../assets/main_logo.png" class=" w-72 max-sm:w-60">
+        <a @click="backtoMain" class="cursor-pointer"> <img src="../../assets/main_logo.png" class=" w-72  max-sm:w-60">
         </a>
       </div>
     </div>
-    <div class="bg-slate-100 h-[80vh]">
-      <div class="w-8/12 mx-auto   ">
+    <div class="bg-slate-100 h-[85vh]">
+      <div class="w-8/12 mx-auto">
         <slot />
       </div>
     </div>
 
     <div class="footer-container">
-      <div class="footer flex justify-center mt-auto py-4">
+      <div class="footer flex justify-center mt-auto py-2">
         <button
-          class="border px-14 py-6 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800  transition duration-1000">next:
+          class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800  transition duration-1000">next:
           {{ btnName }}</button>
       </div>
     </div>
@@ -59,6 +59,10 @@ const backtoMain = () => {
   width: 100%;
   box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
   /* Adjust the shadow as needed */
+}
+.header-shadow{
+  top: 0;
+  box-shadow: 0 -5px 10 px rgba(0, 0, 0, 0.1);
 }
 
 .footer {
