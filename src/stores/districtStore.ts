@@ -7,7 +7,8 @@ import { defineStore } from 'pinia'
 export const useDistrictStore = defineStore('district', ({
   state: () => ({
     districts: [] as IDistrict[],
-    districtsByRegion: [] as IDistrict[]
+    districtsByRegion: [] as IDistrict[],
+    toDistricts: [] as IDistrict[]
   }),
   actions: {
     async getDsitrict() {
@@ -26,6 +27,15 @@ export const useDistrictStore = defineStore('district', ({
       } catch (error) {
         console.log(error)
       }
+    },
+    async getDistric(id: number){
+      try {
+        const data = await getDistrictsByRegion(id)
+        this.toDistricts = data
+      } catch (error) {
+        console.log(error)
+      }
     }
+
   }
 }))
