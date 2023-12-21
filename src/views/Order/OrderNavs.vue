@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="bg-slate-100 h-[85vh]">
-      <div class="w-8/12 mx-auto">
+      <div class=" mx-auto">
         <slot />
       </div>
     </div>

@@ -3,7 +3,7 @@
     <label class="text-sm w-auto font-medium">{{ label }}</label>
     <select
       v-model="selectedResult"
-      class="field  h-10 w-auto bg-white  text-sm rounded-md p-1 outline-none"
+      class="field bg-white h-10 w-auto border-2 border-sky-300 border-opacity-90 rounded-md  text-sm  p-1 outline-none"
       @change="handleChange"
       v-bind="$attrs"
     > 
@@ -16,14 +16,11 @@
         {{ option?.[resultNameKey] }}
       </option>
     </select>
-  
   </div>
 </template>
 
 <script>
 import { ref, watch, toRefs } from 'vue';
-
-
 
 export default {
   props: {
