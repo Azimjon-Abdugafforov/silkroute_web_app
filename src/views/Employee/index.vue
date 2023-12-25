@@ -24,13 +24,14 @@
           </button>
 
           <div class="filter-menu" v-if="showNameFilter">
+            
             <input v-model="nameCriteria" />
           </div>
         </div>
         ></template
       >
     </EasyDataTable>
-    <BaseMapVue />
+    <!-- <BaseMapVue /> -->
   </main>
 
   <EditStaff />

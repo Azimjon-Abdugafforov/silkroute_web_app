@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@mapbox/mapbox-gl-geocoder": "^5.0.2",
+    "@googlemaps/js-api-loader": "^1.16.2",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.3",
     "autoprefixer": "^10",

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <div id="mapContainer" class="basemap"></div>
   </div>
@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import mapboxgl from "mapbox-gl";
+// import mapboxgl from "mapbox-gl";
 
 const accessToken =
   "pk.eyJ1IjoidGhld2Vla25kIiwiYSI6ImNsbHc1czg1ZDAzNmEzZGxmY3poNHpkZWIifQ.DCsa6pwMfm3LF_YpZ1PeEA";
@@ -24,11 +24,12 @@ onMounted(() => {
     pitch: 0,
   });
 });
+https://api.mapbox.com/search/geocode/v6/reverse?country=uz&language=en&longitude=67.20670044486803&latitude=39.46677362206361&access_token=pk.eyJ1IjoidGhld2Vla25kIiwiYSI6ImNsbHc1czg1ZDAzNmEzZGxmY3poNHpkZWIifQ.DCsa6pwMfm3LF_YpZ1PeEA
 </script>
 
 <style lang="css" scoped>
 .basemap {
   width: 100%;
-  height: 52vh;
+  height: 50vh;
 }
-</style>
+</style> -->

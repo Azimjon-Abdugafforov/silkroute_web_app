@@ -42,10 +42,9 @@
         <div class="w-4/12 mx-auto">
           <AutoCompleteVue v-model="toDistrict" label="Select the district" :options="toDistricts" resultNameKey="name" />
         </div>
-
       </div>
     </div>
-      <BaseMap class="mt-2"/>
+      <!-- <BaseMap  class="mt-1"/> -->
     </OrderNavs>
 
   </div>
@@ -61,7 +60,7 @@ import AutoCompleteVue from '@/components/BaseComponents/AutoComplete.vue';
 import { useRegionStore } from '@/stores/regionStore'
 import { storeToRefs } from 'pinia';
 import { useDistrictStore } from '@/stores/districtStore'
-import BaseMap from '@/components/BaseMap.vue';
+// import BaseMap from '@/components/BaseMap.vue';
 
 
 const fromRegion = ref({} as IRegion)
