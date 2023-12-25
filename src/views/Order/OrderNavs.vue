@@ -21,7 +21,10 @@
 
     <div class="footer-container">
       <div class="footer flex justify-center mt-auto py-2">
-        <button
+        <button @click="previousStep" class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800 transition duration-1000">
+          Previous
+        </button>
+        <button @click="nextStep()"
           class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800  transition duration-1000">next:
           {{ btnName }}</button>
       </div>
@@ -33,20 +36,43 @@
 import { useRouter } from 'vue-router';
 import { Icon } from '@iconify/vue';
 import { storeToRefs } from 'pinia';
-import { useOrderStore } from '@/stores/orderStore'
-const orderStore = useOrderStore()
+import { useOrderStore } from '@/stores/orderStore';
 
-const { btnName } = storeToRefs(orderStore)
+const orderStore = useOrderStore();
 
-const router = useRouter()
-async function routePush() {
-  router.back()
-}
+const router = useRouter();
+
+const steps = ['step1', 'step2', 'step3', 'step4', 'step5'];
+
+const nextStep = () => {
+  const currentStepIndex = steps.findIndex(step => orderStore[step]);
+  if (currentStepIndex < steps.length - 1) {
+    orderStore[steps[currentStepIndex]] = false;
+    orderStore[steps[currentStepIndex + 1]] = true;
+    orderStore.btnName = `Step ${currentStepIndex + 2}`;
+  }
+};
+
+const previousStep = () => {
+  const currentStepIndex = steps.findIndex(step => orderStore[step]);
+  if (currentStepIndex > 0) {
+    orderStore[steps[currentStepIndex]] = false;
+    orderStore[steps[currentStepIndex - 1]] = true;
+    orderStore.btnName = `Step ${currentStepIndex}`;
+  }
+};
+
+const { btnName } = storeToRefs(orderStore);
+
+const routePush = async () => {
+  router.back();
+};
+
 const backtoMain = () => {
-  router.push('/')
-}
-
+  router.push('/');
+};
 </script>
+
  
 <style scoped>
 .wrapper {

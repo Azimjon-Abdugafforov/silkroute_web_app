@@ -72,7 +72,6 @@ const districtStore = useDistrictStore()
 const regionStore = useRegionStore()
 const { regions } = storeToRefs(regionStore)
 const { districtsByRegion, toDistricts } = storeToRefs(districtStore);
-const item = ref()
 const getRegions = async () => {
   try {
     await regionStore.getRegion()

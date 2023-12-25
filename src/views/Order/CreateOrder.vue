@@ -5,14 +5,13 @@
         <div :style="{ width: calculateWidth + '%' }" class="bg-blue-600 h-2.5 rounded-sm dark:bg-blue-500"></div>
       </div>
       <Step1 v-if="step1" />
-      <Step2 v-else-if="step2" />
+      <Step2 v-if="step2" />
       <Step3 v-else-if="step3" />
       <Step4 v-else-if="step4" />
       <Step5 v-else-if="step5" />
     </OrderNavs>
   </div>
 </template>
-
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { Icon } from '@iconify/vue';
@@ -25,6 +24,11 @@ import { storeToRefs } from 'pinia';
 import { useDistrictStore } from '@/stores/districtStore'
 import Step1 from './Steps/Step1.vue'
 import { useOrderStore } from "@/stores/orderStore"
+import Step2 from './Steps/Step2.vue';
+import Step3 from './Steps/Step3.vue';
+import Step4 from './Steps/Step4.vue';
+import Step5 from './Steps/Step5.vue';
+
 
 const orederStore = useOrderStore()
 const { step1, step2, step3, step4, step5 } = storeToRefs(orederStore)
