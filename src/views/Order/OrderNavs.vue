@@ -14,19 +14,17 @@
       </div>
     </div>
     <div class="bg-slate-100 h-[85vh]">
-      <div class=" mx-auto">
+      <div class="mx-auto">
         <slot />
       </div>
     </div>
-
     <div class="footer-container">
       <div class="footer flex justify-center mt-auto py-2">
         <button @click="previousStep" class="border px-14 py-4 uppercase rounded-md bg-slate-400 text-white text-md mx-auto hover:bg-slate-800 transition duration-500">
           Previous
         </button>
         <button @click="nextStep()"
-          class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800  transition duration-1000">next:
-          {{ btnName }}</button>
+          class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800  transition duration-1000">next</button>
       </div>
     </div>
   </div>
@@ -49,7 +47,6 @@ const nextStep = () => {
   if (currentStepIndex < steps.length - 1) {
     orderStore[steps[currentStepIndex]] = false;
     orderStore[steps[currentStepIndex + 1]] = true;
-    orderStore.btnName = `Step ${currentStepIndex + 2}`;
   }
 };
 
@@ -58,7 +55,6 @@ const previousStep = () => {
   if (currentStepIndex > 0) {
     orderStore[steps[currentStepIndex]] = false;
     orderStore[steps[currentStepIndex - 1]] = true;
-    orderStore.btnName = `Step ${currentStepIndex}`;
   }
 };
 

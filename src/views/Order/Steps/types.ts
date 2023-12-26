@@ -1,0 +1,17 @@
+export interface IOrder {
+  fromRegion: number,
+  fromDistrict: number,
+  toRegion: number,
+  toDistrict: number,
+  loadDayTime: string,
+  fromLoadTime: string,
+  toLoadTime: string,
+  startPoint: string[],
+  endPoint: string[],
+  paymentType: string,
+  services: string[],
+  homeType: string,
+  email: string,
+  phoneNumber: string,
+  fullName: string,
+}
