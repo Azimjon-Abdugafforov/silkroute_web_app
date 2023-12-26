@@ -10,7 +10,6 @@
 import FeatureViewsVue from "@/components/FeatureViews.vue";
 import { ref } from "vue";
 import Breadcrumb from "../partials/Breadcrumb.vue";
-// import FeatureViewsVue from "@/components/FeatureViews.vue";
 interface User {
   name: string;
   email: string;

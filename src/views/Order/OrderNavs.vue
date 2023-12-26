@@ -21,7 +21,7 @@
 
     <div class="footer-container">
       <div class="footer flex justify-center mt-auto py-2">
-        <button @click="previousStep" class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800 transition duration-1000">
+        <button @click="previousStep" class="border px-14 py-4 uppercase rounded-md bg-slate-400 text-white text-md mx-auto hover:bg-slate-800 transition duration-500">
           Previous
         </button>
         <button @click="nextStep()"
@@ -31,7 +31,7 @@
     </div>
   </div>
 </template>
- 
+  
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { Icon } from '@iconify/vue';
