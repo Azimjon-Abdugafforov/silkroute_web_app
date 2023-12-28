@@ -12,6 +12,7 @@ import 'vue-toastification/dist/index.css'
 import {Icon} from "@iconify/vue"
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 const options: PluginOptions = {
   position: POSITION.BOTTOM_CENTER,
@@ -24,6 +25,12 @@ app.component("default-layout", DashboardLayout);
 app.component("empty-layout", EmptyLayout);
 app.component("base-icon", Icon);
 app.use(pinia);
+app.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyCBhsCgIocoKbnGtkdRAcU4rZtpPuivWnI',
+    libraries: 'places',
+  },
+})
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.use(Toast, options)
 app.use(router).mount("#app");

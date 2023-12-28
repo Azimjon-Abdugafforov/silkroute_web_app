@@ -11,7 +11,7 @@ import NotFound from "../views/NotFound.vue";
 import Employee from '@/views/Employee/index.vue'
 import CreateOrder from "@/views/Order/CreateOrder.vue";
 import Layout from '@/views/Order/OrderNavs.vue';
-
+import BecomDriverVue from "@/views/Driver/BecomDriver.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -67,6 +67,11 @@ const routes: Array<RouteRecordRaw> = [
     name:'order',
     component: CreateOrder,
     meta: {layout: "empty"}
+  },
+  {
+    path:'/become-driver',
+    name:'become-driver',
+    component: BecomDriverVue,
   },
   
   { path: "/:pathMatch(.*)*", component: NotFound },

@@ -19,14 +19,25 @@
           quaerat quis doloribus maxime sequi quo sed! Magnam esse blanditiis a similique voluptatem debitis facere quae
           velit modi amet praesentium corporis, fuga sit aut doloremque eveniet numquam. Aspernatur blanditiis fuga
           provident temporibus veritatis maxime porro officiis repudiandae!</p>
-      </div>
+        <div class="flex justify-end">
+          <button
+          @click="$router.push('/become-driver')"
+            class="border bg-sky-600 px-4 my-4 rounded-md py-2 flex items-center uppercase transition transform hover:scale-105">
+            <Icon icon="fe:truck" class="text-white h-6 mr-2 " ></Icon>
+            <span class="font-semibold text-white">Become a Driver</span>
+          </button>
+        </div>
+      </div> 
     </div>
 
-  </div></template>
+  </div>
+</template>
 
 <script setup lang="ts">
 import Breadcrumb from "../partials/Breadcrumb.vue";
+import { Icon } from "@iconify/vue";
 
 
 </script>
+<style scoped></style>
 

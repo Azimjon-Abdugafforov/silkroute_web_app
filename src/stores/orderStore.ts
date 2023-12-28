@@ -11,9 +11,12 @@ export const useOrderStore = defineStore('order', ({
     step5: false,
     order: {} as IOrder,
   }),
+  
   actions:{
     async getOrderDetails(){
       console.log('here')
     }
   }
 }))
+
+
