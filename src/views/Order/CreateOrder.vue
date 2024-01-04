@@ -2,7 +2,7 @@
   <div>
     <OrderNavs>
       <div class="w-full bg-gray-200 rounded-sm h-2.5 mb-4 dark:bg-slate-300">
-        <div :style="{ width: calculateWidth + '%' }" class="bg-blue-600 h-2.5 rounded-sm dark:bg-blue-500"></div>
+        <div :style="{ width: calculateWidth + '%' }" class="bg-blue-500 h-2.5 rounded-sm dark:bg-sky-500"></div>
       </div>
       <Step1 v-if="step1" />
       <Step2 v-if="step2" />
