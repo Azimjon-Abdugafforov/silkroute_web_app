@@ -3,7 +3,6 @@ import type { IRegion } from "@/views/Order/types";
 
 export async function getRegions(): Promise<IRegion[]> {
   try {
-
     const {data} = await axios.get('/Region/GetAll');
     console.log('here2');
 
