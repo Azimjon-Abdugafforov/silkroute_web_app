@@ -95,7 +95,10 @@
         </transition>
       </div>
     </div>
+
   </header>
+  <BaseLoader v-if="loading"/>
+
 </template>
 
 <script setup lang="ts">
@@ -106,6 +109,7 @@ import { useRouter } from "vue-router";
 
 
 
+const loading = ref(false)
 
 const router = useRouter()
 const dropdownOpen = ref(false);
@@ -115,7 +119,18 @@ const isOpen = ref(false);
 
 
 async function  routePush() {
-  router.push('/create-order')
+  try {
+      loading.value = true
+      router.push('/create-order')
+
+
+
+  } catch (error) {
+    console.log(error)
+  }
+  finally{
+    loading.value = false
+  }
 }
 
 const navbarRoutes = [
@@ -143,5 +158,8 @@ const navbarRoutes = [
 ];
 </script>
 <style scoped>
-
+/* Add this style to override the background */
+.spinner {
+  background: none !important;
+}
 </style>

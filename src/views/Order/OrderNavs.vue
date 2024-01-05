@@ -40,7 +40,7 @@ const orderStore = useOrderStore();
 
 const router = useRouter();
 
-const steps = ['step1', 'step2', 'step3', 'step4', 'step5'];
+const steps = ['step1', 'step2', 'step3', 'step4', ];
 
 const nextStep = () => {
   const currentStepIndex = steps.findIndex(step => orderStore[step]);
@@ -58,7 +58,6 @@ const previousStep = () => {
   }
 };
 
-const { btnName } = storeToRefs(orderStore);
 
 const routePush = async () => {
   router.back();

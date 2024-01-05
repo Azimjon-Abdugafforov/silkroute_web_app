@@ -3,24 +3,21 @@
     <div class="flex gap-1 w-auto h-auto flex-col justify-end">
       <label
         v-if="label"
-        :for="id"
-        :class="['text-sm font-medium flex items-end h-6 w-45', color]"
+        :class="['text-sm font-medium flex items-end h-6 w-45']"
         >{{ label }}</label
       >
       <input
         v-bind="$attrs"
         :path="props.icons"
-        :id="props.id"
         :type="props.type"
         :maxlength="props.max"
         :minlength="props.min"
         :value="props.modelValue"
-        :placeholder="props.placeholder"
         :disabled="disabled"
-        :class="[{ 'border-green-600': success }]"
+        :class="[{ 'border-2 border-green-500': props.success }]"
         :accept="props.accept"
         @input="updateInput"
-        class="border h-8 bg-white p-1 rounded-md text-sm w-auto transition-all focus:border-blue-600 focus:ring focus:ring-opacity-40 focus:ring-blue-500"
+        class="border px-3 h-12 bg-white p-1 rounded-md text-sm w-auto transition-all focus:border-blue-600 focus:ring focus:ring-opacity-40 focus:ring-blue-500"
       />
     </div>
     <p
@@ -29,12 +26,12 @@
     >
       {{ props.errors }}
     </p>
-    <p
-      v-if="success"
+    <!-- <p
+      v-if="props.success"
       class="text-green-600 text-sm font-medium flex items-end h-6 w-45"
     >
-      {{ success }}
-    </p>
+      {{ props.success }}
+    </p> -->
   </div>
 </template>
 
@@ -42,19 +39,17 @@
 import { defineProps, defineEmits, computed, ref } from "vue";
 
 interface Props {
-  id: number | string;
-  icons: string;
-  max: number;
-  min: number;
+  // icons: string;
+  // max: number;
+  // min: number;
   label: string;
   modelValue: number | string | object | Array<any>;
   type: string;
-  placeholder: string | number;
   errors: Array<any> | string;
-  color: string | number;
-  componentClass: string;
-  accept: Array<any> | object | string;
+  // componentClass: string;
+  // accept: Array<any> | object | string;
   disabled: boolean;
+  success: string;
 }
 
 const props = defineProps<Props>();
