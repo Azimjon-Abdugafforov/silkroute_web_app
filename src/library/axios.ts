@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'https://bisp-api.azurewebsites.net/api/v1'
 axios.defaults.headers.common.Accept = "application/json";
 axios.defaults.headers.common["Content-Type"] = "application/json";
 axios.defaults.withCredentials = false;
-axios.defaults.timeout = 30000;
+axios.defaults.timeout = 300000;
 
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem("access_token");

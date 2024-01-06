@@ -19,28 +19,42 @@
       </div>
     </div>
     <div class="footer-container">
-      <div class="footer flex justify-center mt-auto py-2">
-        <button @click="previousStep" class="border px-14 py-4 uppercase rounded-md bg-slate-400 text-white text-md mx-auto hover:bg-slate-800 transition duration-500">
-          Previous
-        </button>
-        <button @click="nextStep()"
-          class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800  transition duration-1000">next</button>
-      </div>
+    <div class="footer flex justify-center mt-auto py-2">
+      <button @click="previousStep" class="border px-14 py-4 uppercase rounded-md bg-slate-400 text-white text-md mx-auto hover:bg-slate-800 transition duration-500">
+        Previous
+      </button>
+      <button @click="nextStep()" v-if="!isLastStep"
+        class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800 transition duration-1000">
+        Next
+      </button>
+      <button @click="submitOrder()" v-if="isLastStep"
+        class="border px-14 py-4 uppercase rounded-md bg-sky-600 text-white text-md mx-auto hover:bg-sky-800 transition duration-1000">
+        Submit
+      </button>
     </div>
+  </div>
   </div>
 </template>
   
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'; 
 import { Icon } from '@iconify/vue';
 import { storeToRefs } from 'pinia';
 import { useOrderStore } from '@/stores/orderStore';
+import { computed } from 'vue';
+import { getCurrentInstance } from 'vue';
+const { emit } = getCurrentInstance();
+
+const submitOrder = () => {
+  emit('orderSubmitted');
+};
 
 const orderStore = useOrderStore();
-
+ 
 const router = useRouter();
 
 const steps = ['step1', 'step2', 'step3', 'step4', ];
+const isLastStep = computed(() => steps.findIndex(step => orderStore[step]) === steps.length - 1);
 
 const nextStep = () => {
   const currentStepIndex = steps.findIndex(step => orderStore[step]);
@@ -55,6 +69,14 @@ const previousStep = () => {
   if (currentStepIndex > 0) {
     orderStore[steps[currentStepIndex]] = false;
     orderStore[steps[currentStepIndex - 1]] = true;
+  }
+};
+
+const submit = () => {
+  try {
+    orderStore.submitOrder();
+  } catch (error) {
+    console.log(error);
   }
 };
 

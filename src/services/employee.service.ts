@@ -1,6 +1,11 @@
 import axios from '@/library/axios'
 
 export async function getEmployeeList(){
-  const {data} = await axios.get(`/Employee`)
-  return data
+  try {
+    const {data} = await axios.get(`/Employee`)
+    return data
+  } catch (error) {
+    console.log(error)  
+  }
+
 }

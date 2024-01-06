@@ -1,6 +1,7 @@
 <template>
   <div>
-    <OrderNavs>
+
+    <OrderNavs @orderSubmitted="submitOrder">
       <div class="w-full bg-gray-200 rounded-sm h-2.5 mb-4 dark:bg-slate-300">
         <div :style="{ width: calculateWidth + '%' }" class="bg-blue-500 h-2.5 rounded-sm dark:bg-sky-500"></div>
       </div>
@@ -16,7 +17,7 @@
               <span class='text-red-500 text-base -translate-y-1 mr-1'>*</span> indicates the required fields
             </span>
             <div
-              class="w-12/12 md:w-12/12 xl:w-12/12 flex items-center flex-wrap justify-around mx-auto uppercase font-semibold text-slate-700">
+              class="w-12/12 md:w-12/12 xl:w-12/12 flex items-center gap-4 justify-around mx-auto uppercase font-semibold text-slate-700">
               <div
                 class="border-t-8 my-2 border-sky-500 w-[40vh] flex items-center justify-around h-[10vh] cursor-pointer bg-white">
                 <img :src="local" alt="Local">
@@ -31,23 +32,25 @@
                 </div>
               </div>
             </div>
+
+
             <div class="mx-3 flex justify-center">
               <div class="w-4/12 mx-auto">
-                <AutoCompleteVue @change="getDistrictByRegion(fromRegion?.id)" returnData="regionName"
-                  v-model:model-value="fromRegion" label="From" :options="regions" resultNameKey="regionName" />
+                <AutoCompleteVue @change="getDistrictByRegion()" returnData="id"
+                  v-model:model-value="orderData.fromRegion" label="From" :options="regions" resultNameKey="regionName" />
               </div>
               <div class="w-4/12 mx-auto">
-                <AutoCompleteVue @change="getDist()" v-model="toRegion" label="To" :options="regions"
+                <AutoCompleteVue @change="getDist()" v-model="orderData.toRegion" label="To" :options="regions"
                   resultNameKey="regionName" />
               </div>
             </div>
             <div class="mx-3 flex justify-center">
               <div class="w-4/12 mx-auto">
-                <AutoCompleteVue v-model:model-value="fromDistrict" label="Select the district"
+                <AutoCompleteVue v-model:model-value="orderData.fromDistrict" label="Select the district"
                   :options="districtsByRegion" resultNameKey="name" />
               </div>
               <div class="w-4/12 mx-auto">
-                <AutoCompleteVue v-model="toDistrict" label="Select the district" :options="toDistricts"
+                <AutoCompleteVue v-model="orderData.toDistrict" label="Select the district" :options="toDistricts"
                   resultNameKey="name" />
               </div>
             </div>
@@ -56,14 +59,14 @@
 
         <div>
           <GMapMap class="z-30 w-full mt-4" :center="coords" :zoom="10" map-type-id="terrain" style="height: 48vh">
-            <GMapMarker :key="0" :position="coords" :clickable="false">
+            <GMapMarker :key="0" :position="orderData.startPoint" :clickable="false">
               <GMapInfoWindow :options="{ maxWidth: 200 }">
                 <div>
                   <h3>Your Location</h3>
                 </div>
               </GMapInfoWindow>
             </GMapMarker>
-            <GMapMarker :key="1" :position="markerDetails.position" :draggable="true" @dragend="updateMarkerPosition">
+            <GMapMarker :key="1" :position="marker2Details.position" :draggable="true" @dragend="updateMarker2Position">
               <GMapInfoWindow v-if="locationDetails.address !== ''" :options="{ maxWidth: 200 }">
                 <div class="location-details">
                   <h3>Location Details</h3>
@@ -72,6 +75,7 @@
                 </div>
               </GMapInfoWindow>
             </GMapMarker>
+
           </GMapMap>
         </div>
       </div>
@@ -87,7 +91,8 @@
           </div>
           <div class="w-full flex justify-center mt-16">
             <Icon icon="carbon:calendar" class="w-8 h-6 mr-2 absolute z-50 translate-x-20 mt-2 opacity-70" />
-            <Datepicker class="border rounded-md w-12/12" v-model="picked" :clearable="false" @change="setLoadTime" />
+            <Datepicker class="border rounded-md w-12/12" v-model="orderData.loadDayTime" :clearable="false"
+              @change="setLoadTime" />
           </div>
         </div>
       </div>
@@ -122,7 +127,7 @@
             <ul class="flex justify-center">
               <li class="hover:bg-sky-300 cursor-pointer transition duration-700 border rounded-sm px-4 py-2 mx-3"
                 v-for="item in rooms" :key="item.value" @click="selectRoom(item.value)"
-                :class="{ 'bg-sky-500 ': selectedRoom === item.value }">
+                :class="{ 'bg-sky-500 ': orderData.rooms === item.value }">
                 {{ item.value }}
               </li>
             </ul>
@@ -131,11 +136,11 @@
               pay for it?</span>
             <div class="flex w-12/4 justify-center  ">
               <div class="flex justify-around  items-center mx-2">
-                <input v-model="paymentType" type="radio" name="paymentType" id="cash" value="cash">
+                <input v-model="orderData.paymentType" type="radio" name="paymentType" id="cash" value="cash">
                 <label class="mx-2 font-normal text-xl" for="cash">Cash</label>
               </div>
               <div class="flex justify-around  items-center mx-2">
-                <input v-model="paymentType" type="radio" name="paymentType" id="card" value="card">
+                <input v-model="orderData.paymentType" type="radio" name="paymentType" id="card" value="card">
                 <label class="mx-2 text-xl font-normal" for="card">Card</label>
               </div>
             </div>
@@ -147,18 +152,18 @@
           <span class=" w-full flex justify-center text-2xl">Contact information <span
               class="text-red-700">*</span></span>
           <div class="w-4/12  mx-auto mt-16">
-            <BaseInput class="my-2" type="text" :disabled="false" :errors="error" v-model:model-value="firstName"
-              label="First Name" errorMessage="" success="" />
-            <BaseInput class="my-2" type="text" :disabled="false" :errors="error" v-model:model-value="lastname"
+            <BaseInput class="my-2" type="text" :disabled="false" :errors="error"
+              v-model:model-value="orderData.firstName" label="First Name" errorMessage="" success="" />
+            <BaseInput class="my-2" type="text" :disabled="false" :errors="error" v-model:model-value="orderData.lastname"
               label="Lastname" errorMessage="" success="" />
-            <BaseInput class="my-2" type="text" :disabled="false" :errors="error" v-model:model-value="phoneNumber"
-              label="Phone Number" errorMessage="" success="" />
-            <BaseInput class="my-2" type="email" :disabled="false" :errors="error" v-model:model-value="email"
+            <BaseInput class="my-2" type="text" :disabled="false" :errors="error"
+              v-model:model-value="orderData.phoneNumber" label="Phone Number" errorMessage="" success="" />
+            <BaseInput class="my-2" type="email" :disabled="false" :errors="error" v-model:model-value="orderData.email"
               label="Email Address" errorMessage="" success="" />
           </div>
-
         </div>
       </div>
+
     </OrderNavs>
   </div>
 </template>
@@ -168,7 +173,7 @@ import { Icon } from '@iconify/vue';
 import type { IDistrict, IRegion } from './types'
 import Datepicker from 'vue3-datepicker';
 import OrderNavs from './OrderNavs.vue';
-import { onMounted, ref, computed, watchEffect } from 'vue';
+import { onMounted, ref, computed, watchEffect, reactive } from 'vue';
 import AutoCompleteVue from '@/components/BaseComponents/AutoComplete.vue';
 import { storeToRefs } from 'pinia';
 import { useDistrictStore } from '@/stores/districtStore'
@@ -183,13 +188,13 @@ import { useRegionStore } from '@/stores/regionStore';
 import local from "@/assets/local.svg";
 import intern from "@/assets/international.svg";
 import flat from '@/assets/home.svg'
-import home from '@/assets/corporate.svg'
+import home from '@/assets/corporate.svg';
+import { IOrder } from './Steps/types';
 
 const router = useRouter();
 const regionStore = useRegionStore();
 const districtStore = useDistrictStore();
 const orderStore = useOrderStore();
-
 const { order } = storeToRefs(orderStore);
 const email = ref('')
 const phoneNumber = ref('+998');
@@ -207,6 +212,28 @@ const openedMarkerID = ref(null);
 const locationDetails = ref({ address: '', url: '' });
 const { regions } = storeToRefs(regionStore);
 const { districtsByRegion, toDistricts } = storeToRefs(districtStore);
+const marker2Details = ref({ id: 2, position: { lat: 41.2995, lng: 69.2401 } });
+const picked = ref();
+const homeType = ref(true)
+const selectedRoom = ref('');
+const paymentType = ref()
+
+const orderData = ref<IOrder>({
+  fromRegion: fromRegion.value.id,
+  toRegion: toRegion.value.id,
+  fromDistrict: fromDistrict.value.id,
+  toDistrict: toDistrict.value.id,
+  loadDayTime: picked.value,
+  homeType: homeType.value,
+  rooms: selectedRoom.value,
+  paymentType: paymentType.value,
+  firstName: firstName.value,
+  lastname: lastname.value,
+  phoneNumber: phoneNumber.value,
+  email: email.value,
+  startPoint: markerDetails.value.position,
+  endPoint: marker2Details.value.position,
+});
 
 const getRegions = async () => {
   try {
@@ -216,10 +243,10 @@ const getRegions = async () => {
   }
 };
 
-const getDistrictByRegion = async (id: number) => {
-  if (fromRegion.value && fromRegion.value?.id) {
+const getDistrictByRegion = async () => {
+  if (orderData.value.fromRegion && orderData.value.fromRegion) {
     try {
-      await districtStore.getDistrictByRegion(id);
+      await districtStore.getDistrictByRegion(orderData.value.fromRegion?.id);
     } catch (error) {
       console.error(error);
     }
@@ -236,30 +263,8 @@ const getUserLocation = () => {
   }
 };
 
-const setPlace = (place) => {
-  if (place && place.geometry && place.geometry.location) {
-    coords.value.lat = place.geometry.location.lat();
-    coords.value.lng = place.geometry.location.lng();
-
-    locationDetails.value.address = place.formatted_address;
-    locationDetails.value.url = place.url;
-
-    // Update endPoint coordinates
-    markerDetails.value.position = {
-      lat: coords.value.lat,
-      lng: coords.value.lng,
-    };
-  } else {
-    console.error('Invalid place object:', place);
-  }
-};
-
-const openMarker = (id) => {
-  openedMarkerID.value = id;
-};
-
-const updateMarkerPosition = (event) => {
-  markerDetails.value.position = {
+const updateMarker2Position = (event) => {
+  orderData.value.endPoint = {
     lat: event.latLng.lat(),
     lng: event.latLng.lng(),
   };
@@ -267,7 +272,7 @@ const updateMarkerPosition = (event) => {
 
 const getDist = async () => {
   try {
-    await districtStore.getDistric(toRegion.value.id);
+    await districtStore.getDistric(orderData.value.toRegion?.id);
   } catch (error) {
     console.log(error);
   }
@@ -278,9 +283,13 @@ onMounted(() => {
   getRegions();
 });
 
-// Watch for changes in form data and update the orderStore
 watchEffect(() => {
   orderStore.updateOrder({ ...order, fromRegion, toRegion, fromDistrict, toDistrict });
+  if(homeType.value) {
+    orderData.value.homeType = 'House'
+  } else {
+    orderData.value.homeType = 'Flat'
+  }
 });
 
 const orederStore = useOrderStore()
@@ -293,24 +302,32 @@ const calculateWidth = computed(() => {
   if (step4.value) return 100;
   return 0;
 });
-const picked = ref(new Date());
 
-const selectedRoom = ref();
+const submitOrder = async () => {
+  try {
+   const data= await orderStore.submitOrder(orderData.value);
+   if(data.responseCode == 200){
+    orderData.value = {} as IOrder;
+      router.push('/')
+   }
+  } catch (error) {
+    console.log(error);
+  }
+  console.log(orderData.value);
+}
 const selectRoom = (value: number) => {
-  selectedRoom.value = value;
+  orderData.value.rooms = value;
 };
-const homeType = ref(true)
+
 function changeStat() {
-  homeType.value = !homeType.value
+  homeType.value = !homeType.value;
 }
 
-const paymentType = ref(null)
 const rooms = ref([
   { value: 1 },
   { value: 2 },
   { value: 3 },
   { value: 4 }
-])
+]);
 
 </script>
-
