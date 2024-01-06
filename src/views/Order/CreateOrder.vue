@@ -308,7 +308,7 @@ const submitOrder = async () => {
    const data= await orderStore.submitOrder(orderData.value);
    if(data.responseCode == 200){
     orderData.value = {} as IOrder;
-      router.push('/')
+      router.push('/login')
    }
   } catch (error) {
     console.log(error);
