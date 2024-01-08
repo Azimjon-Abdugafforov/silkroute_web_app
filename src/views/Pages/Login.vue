@@ -19,14 +19,16 @@
             </div>
 
             <div class="mx-auto max-w-xs">
-              <input
+              <input required v-model="userDetails.username"
                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                 type="email" placeholder="Email" />
-              <input
+              <input required v-model="userDetails.password"
                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                 type="password" placeholder="Password" />
-                <span @click="forgotPassword()" class="hover:text-sky-400 w-12/12 flex justify-end text-xs cursor-pointer text-sky-600 mt-1">Forgot password</span>
-              <button
+              <span @click="forgotPassword()"
+                class="hover:text-sky-400 w-12/12 flex justify-end text-xs cursor-pointer text-sky-600 mt-1">Forgot
+                password</span>
+              <button @click="login()"
                 class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                 <span class="ml-3">Sign In</span>
               </button>
@@ -46,28 +48,19 @@
       </div>
     </div>
   </div>
- 
+  <BaseLoader :isVisible="loading" />
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
+import BaseLoader from '@/components/BaseLoader.vue'
+
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
-const rules = {
-  userDetails: {
-    username: {
-      required: helpers.withMessage("Login kiriting!", required),
-    },
-    password: {
-      required: helpers.withMessage("Parolni kiriting!", required),
-    },
-  },
-};
+
 
 const authStore = useAuthStore();
-
+const loading = ref(false)
 const forgotPassword = () => {
   console.log('here')
 }
@@ -79,17 +72,23 @@ const userDetails = reactive({
   username: username.value,
   password: password.value,
 });
-const v$ = useVuelidate(rules, { userDetails });
 
 async function login() {
-  const isValid = await v$.value.$validate();
-  if (isValid) {
+  try {
+    loading.value = true
     const data = await authStore.login(userDetails);
     console.log(data);
     if (data) {
       router.push("/dashboard");
     }
+
+  } catch (error) {
+    loading.value = false
   }
+  finally {
+    loading.value = false
+  }
+
 }
 </script>
 <style lang="css" scoped>

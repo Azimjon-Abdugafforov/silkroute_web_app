@@ -11,24 +11,34 @@ export function useSidebar() {
 export const navItems = [
   {
     id: 1,
-    title: "Dashboard",
-    to: "/dashboard",
+    title: "My Orders",
+    to: "/my-orders",
     icon: "mdi:home",
+    role: "USER"
   },
   {
     id: 1,
     title: "Employee",
     to: "/employee",
     icon: "mdi:data",
+    role: "ADMIN"
   },
   {
     id: 2,
     header: "Asosi menyu",
   },
   {
+    id:3,
+    title:"Profile",
+    icon: "mdi:account",
+    to: "/employee",
+    role: "USER"
+
+  },
+  {
     id: 3,
     title: "Cards",
-    icon: "mdi:home",
+    icon: "mdi:cards",
     childNav: [
       {
         id: 1,
@@ -49,5 +59,6 @@ export const navItems = [
     title: "Tables",
     to: "/tables",
     icon: "mdi:data",
+    role: "ADMIN"
   },
 ]

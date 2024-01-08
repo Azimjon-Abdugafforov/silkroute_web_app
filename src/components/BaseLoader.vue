@@ -1,6 +1,6 @@
 <template>
-  <div class="global-loader">
-    <transition name="fade" mode="out-in" >
+  <div v-if="isVisible" class="global-loader">
+    <transition name="fade" mode="out-in">
       <div class="spinner center">
         <div class="spinner-blade"></div>
         <div class="spinner-blade"></div>
@@ -20,18 +20,24 @@
 </template>
 
 <script setup lang="ts">
+import { defineProps } from 'vue';
+const props = defineProps(['isVisible']);
+
 </script>
 
 <style scoped>
 .global-loader {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fade-enter-active,
@@ -170,6 +176,7 @@
   -ms-transform: rotate(330deg);
   transform: rotate(330deg);
 }
+
 /* ... Add styles for other spinner blades ... */
 
 @keyframes spinner-fade9234 {

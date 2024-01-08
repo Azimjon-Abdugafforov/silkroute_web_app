@@ -12,14 +12,29 @@ import Employee from '@/views/Employee/index.vue'
 import CreateOrder from "@/views/Order/CreateOrder.vue";
 import Layout from '@/views/Order/OrderNavs.vue';
 import BecomDriverVue from "@/views/Driver/BecomDriver.vue";
-
+import BaseAppViewVue from "@/views/BaseApp/BaseAppView.vue";
+import BaseLoaderVue from "@/components/BaseLoader.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/login",
     name: "Login",
     component: Login,
     meta: { layout: "empty" },
-  },  
+  }, 
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: BaseAppViewVue,
+    meta: {
+      layout: "empty"
+    }
+  },
+  {
+    path:'/loading',
+    name: 'loading',
+    component: BaseLoaderVue,
+    meta: {layout: "empty"}
+  },
   {
     path: "/",
     name: "Dashboard",

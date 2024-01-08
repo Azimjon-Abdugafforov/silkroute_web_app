@@ -19,8 +19,10 @@ export const useAuthStore = defineStore('auth', {
       const res = await Login(data);
 
       if(res){
-        toast.success(`Xush kelibsiz ${res.name}!`)
+        toast.success(`Xush kelibsiz ${res.user.userName}!`)
         localStorage.setItem('access_token', res.bearer)
+        localStorage.setItem('name', res.user.userName)
+        localStorage.setItem('role', res.user.role.role_name)
       }
       
       return res;
