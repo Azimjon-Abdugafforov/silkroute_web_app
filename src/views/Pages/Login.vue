@@ -1,12 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-    <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+    <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 ">
       <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
         <div class="flex items-center justify-center">
           <img src="../../assets/silkroad.png" class="w-200" />
         </div>
-
         <div class="mt-6 flex flex-col items-center">
           <div class="w-full flex-1 mt-4">
             <div class="flex flex-col items-center">
@@ -17,7 +16,6 @@
                 We send you an email with login and password! Sign in here using them!
               </div>
             </div>
-
             <div class="mx-auto max-w-xs">
               <input required v-model="userDetails.username"
                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -44,26 +42,32 @@
               </p>
             </div>
           </div>
+          <div class="bg-img"></div>
         </div>
       </div>
     </div>
   </div>
+
   <BaseLoader :isVisible="loading" />
+  <ForgotPassword :isVisible="isVisible" />
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import BaseLoader from '@/components/BaseLoader.vue'
-
+import ForgotPassword from "./ForgotPassword.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
+import bgImg from '@/assets/bg.png'
 
 
 const authStore = useAuthStore();
 const loading = ref(false)
 const forgotPassword = () => {
-  console.log('here')
+  isVisible.value = true
+  console.log(isVisible.value)
 }
+const isVisible = ref(false)
 const router = useRouter();
 const username = ref("");
 const password = ref("");
@@ -72,6 +76,7 @@ const userDetails = reactive({
   username: username.value,
   password: password.value,
 });
+
 
 async function login() {
   try {
@@ -107,6 +112,12 @@ async function login() {
   border-radius: 15px;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.03);
   border: 0.1px solid rgba(128, 128, 128, 0.178);
+}
+
+.bg-img {
+  background: url(../../assets/bg-login.svg);
+  background-repeat: no-repeat;
+  background: bottom;
 }
 
 .left {

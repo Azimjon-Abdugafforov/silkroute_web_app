@@ -24,7 +24,6 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('name', res.user.userName)
         localStorage.setItem('role', res.user.role.role_name)
       }
-      
       return res;
     },
   },

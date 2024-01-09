@@ -7,12 +7,12 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
+import {ref, defineProps} from 'vue'
 import BaseLoader from '@/components/BaseLoader.vue'
 import Sidebar from '@/components/Sidebar.vue'
 
 
-const loading  =  ref(false)
+
 
 </script>
 
