@@ -6,7 +6,7 @@
         <div>
           <h3 class="w-12/12 mt-2 text-center xl:text-3xl font-semibold text-sky-700">Request Password Reset</h3>
           <div class="flex justify-end -translate-y-10 ">
-            <button class=" flex justify-end" @click="close()">
+            <button class=" flex justify-end" @click="close">
               <Icon icon="iconamoon:close-thin" class="w-12 h-12 cursor-pointer " color="rgb(67, 113, 163)" />
             </button>
           </div>
@@ -29,26 +29,27 @@
     </transition>
   </div>
 </template>
-
 <script setup lang="ts">
-
-import { defineProps, ref } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 import { Icon } from '@iconify/vue';
-const email = ref("")
+
+const email = ref("");
 const props = defineProps<{
-isVisible: false
-}>()
-
-
+  isVisible: boolean
+}>();
+const emits = defineEmits(['update:isVisible']); 
 
 const close = () => {
-  props.isVisible === false
-  console.log(props.isVisible)
+  emits('update:isVisible', false);
+  console.log(props.isVisible);
 }
+
 const resetPassword = async () => {
-  console.log('reset')
+  console.log('reset');
 }
+
 </script>
+
 
 <style scoped>
 .global-loader {

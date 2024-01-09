@@ -83,14 +83,12 @@ const props = defineProps<{
   title: string;
 }>();
 
-// Use a ref for reactive state
-const isModalOpen = ref(props.isOpen);
+
 
 // Access the context using getCurrentInstance()
 const context = getCurrentInstance();
 
-// Emit the 'cancel-editing' event when close button is clicked
 const cancelEditing = () => {
-  context.emit("update:isOpen", false); // or 'context.emit('cancel-editing')' if you prefer to emit an event
+  context?.emit("update:isOpen", false); // or 'context.emit('cancel-editing')' if you prefer to emit an event
 };
 </script>

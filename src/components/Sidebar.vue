@@ -68,7 +68,7 @@ const filteredNavItems = computed(() => {
         <button @click="logout()"
           class="w-full bg-white py-6  flex items-center justify-center rounded-sm cursor-pointer relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:scale-105 hover:shadow-lg before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-slate-400 before:to-slate-50 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-xl hover:before:left-0 text-black text-xl font-semibold">
           Logout
-          <Icon icon="mdi-logout" class="text-black w-10 h-10  mx-3" />
+          <Icon icon="mdi-logout" class="text-black w-10 h-8  mx-3" />
         </button>
       </div>
 

@@ -49,8 +49,7 @@
   </div>
 
   <BaseLoader :isVisible="loading" />
-  <ForgotPassword :isVisible="isVisible" />
-</template>
+  <ForgotPassword :is-visible="isVisible" @update:isVisible="updateIsVisible(isVisible)" /></template>
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
@@ -95,6 +94,9 @@ async function login() {
   }
 
 }
+const updateIsVisible = (value:boolean) => {
+  isVisible.value = value;
+};
 </script>
 <style lang="css" scoped>
 .container {
