@@ -166,9 +166,11 @@
 
     </OrderNavs>
   </div>
+  <BaseLoader :isVisible="loading" />
 </template>
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import BaseLoader from '@/components/BaseLoader.vue'
 import { Icon } from '@iconify/vue';
 import type { IDistrict, IRegion } from './types'
 import Datepicker from 'vue3-datepicker';
@@ -217,6 +219,7 @@ const picked = ref();
 const homeType = ref(true)
 const selectedRoom = ref('');
 const paymentType = ref()
+const loading = ref(false)
 
 const orderData = ref<IOrder>({
   fromRegion: fromRegion.value.id,
@@ -305,6 +308,7 @@ const calculateWidth = computed(() => {
 
 const submitOrder = async () => {
   try {
+  loading.value = true
    const data= await orderStore.submitOrder(orderData.value);
    if(data.responseCode == 200){
     orderData.value = {} as IOrder;
@@ -313,7 +317,9 @@ const submitOrder = async () => {
   } catch (error) {
     console.log(error);
   }
-  console.log(orderData.value);
+  finally{
+    loading.value = false
+  }
 }
 const selectRoom = (value: number) => {
   orderData.value.rooms = value;

@@ -16,21 +16,20 @@ const inactiveClass = ref(
 );
 
 const { isOpen } = useSidebar();
-
-const userRole = ref("USER");
-
+const userRole = localStorage.getItem("role");
 const logout = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("role");
   localStorage.removeItem("name");
   window.location.href = "/login";
 };
+
 const filteredNavItems = computed(() => {
   return navItems.filter((item) => {
-    // Include items without a role or with a matching role
-    return !item.role || item.role === userRole.value;
+    return !item.role || item.role === userRole;
   });
 });
+
 </script>
 
 <template>
@@ -49,7 +48,6 @@ const filteredNavItems = computed(() => {
             <span class="relative translate-y-4 -translate-x-7 ">Express</span>
           </div>
         </div>
-
         <nav class="mt-10">
           <ul>
             <li v-for="item in filteredNavItems" :key="item.id">
@@ -71,8 +69,6 @@ const filteredNavItems = computed(() => {
           <Icon icon="mdi-logout" class="text-black w-10 h-8  mx-3" />
         </button>
       </div>
-
-
     </div>
   </div>
 </template>

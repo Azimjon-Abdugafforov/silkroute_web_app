@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="h-40">
-          <p class="w-8/12 mx-auto text-xs text-slate-700">Enter your email address and we'll send you a link to reset
+          <p class="w-8/12 mx-auto text-xs text-slate-700">Enriderter your email address and we'll send you a link to reset
             your
             password</p>
           <form action="submit">
@@ -43,11 +43,9 @@ const close = () => {
   emits('update:isVisible', false);
   console.log(props.isVisible);
 }
-
 const resetPassword = async () => {
   console.log('reset');
 }
-
 </script>
 
 
