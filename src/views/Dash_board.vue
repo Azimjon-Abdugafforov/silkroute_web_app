@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
 <div>
-  <FeatureViewsVue/>
+  <FeatureViewsVue v-if="!role"/>
 </div>
 </template>
 
@@ -10,6 +10,10 @@ import FeatureViewsVue from "@/components/FeatureViews.vue";
 import BaseLoader from "@/components/BaseLoader.vue";
 import { ref } from "vue";
 import Breadcrumb from "../partials/Breadcrumb.vue";
+
+
+
+const role = localStorage.getItem('role')
 interface User {
   name: string;
   email: string;
