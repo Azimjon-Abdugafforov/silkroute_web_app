@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { IOrder } from "@/views/Order/Steps/types";
-import {postOrder} from '@/services/orderService'
+import {postOrder, getOrderByUser} from '@/services/orderService'
 import {useToast} from 'vue-toastification'
 const toast = useToast()
 export const useOrderStore = defineStore('order', ({
@@ -11,6 +11,7 @@ export const useOrderStore = defineStore('order', ({
     step3: false,
     step4: false,
     order: {} as IOrder,
+    myOrders: {} as [IOrder]
   }),
 
   actions: {
@@ -39,17 +40,29 @@ export const useOrderStore = defineStore('order', ({
           fullName: order.firstName + " " + order.lastName,
           services: []
         }
-        console.log(o)
+
         const data =  await postOrder(o)
         if(data.responseCode == 200){
           toast.success('Your order sucessfully placed!')
         }
         else{
-          toast.error('try again')
+
+          toast.error(data.errormessage)
         }
         return data
       } catch (error) {
         console.log(error);
+      }
+    },
+
+    async getOrderByUsername(username: string){
+      try {
+        const data = await getOrderByUser(username)
+        this.myOrders = data
+        console.log(data)
+        return data
+      } catch (error) {
+        console.log(error)
       }
     }
 

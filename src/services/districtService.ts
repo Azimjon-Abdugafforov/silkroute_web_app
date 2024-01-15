@@ -3,7 +3,7 @@ import type { IDistrict } from "@/views/Order/types";
 
 export async function getDistricts(): Promise<IDistrict[]> {
   try {
-    const res = await axios.get('/District/GetAll');
+    const res = await axios.get('/district/getAll');
     return res.data as IDistrict[];
   } catch (error) {
     console.error('Error fetching districts:', error);
@@ -12,7 +12,7 @@ export async function getDistricts(): Promise<IDistrict[]> {
 }
 export async function getDistrictsByRegion(id:number): Promise<IDistrict[]>{
   try {
-    const res = await axios.get(`/District/ByRegion/${id}`)
+    const res = await axios.get(`/district/byRegion/${id}`)
     return res.data as IDistrict[]
   } catch (error) {
     console.log(error)

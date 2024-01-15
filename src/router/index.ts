@@ -14,13 +14,18 @@ import Layout from '@/views/Order/OrderNavs.vue';
 import BecomDriverVue from "@/views/Driver/BecomDriver.vue";
 import BaseAppViewVue from "@/views/BaseApp/BaseAppView.vue";
 import BaseLoaderVue from "@/components/BaseLoader.vue";
+import SidebarVue from "@/components/Sidebar.vue";
+import MyOrdersVue from "@/views/BaseApp/MyOrders.vue";
+
+
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/login",
     name: "Login",
     component: Login,
     meta: { layout: "empty" },
-  }, 
+  },
   {
     path: "/dashboard",
     name: "dashboard",
@@ -30,10 +35,10 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path:'/loading',
+    path: '/loading',
     name: 'loading',
     component: BaseLoaderVue,
-    meta: {layout: "empty"}
+    meta: { layout: "empty" }
   },
   {
     path: "/",
@@ -44,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/forms",
     name: "Forms",
     component: Forms,
-    meta: {layout:''}
+    meta: { layout: '' }
   },
   {
     path: "/cards",
@@ -71,25 +76,34 @@ const routes: Array<RouteRecordRaw> = [
     name: "Modal",
     component: Modal,
   },
-  
+  {
+    path: "/my-orders",
+    name: "my-orders",
+    component: MyOrdersVue,
+  },
+
   {
     path: "/blank",
     name: "Blank",
     component: Blank,
   },
   {
-    path:'/create-order',
-    name:'order',
+    path: '/create-order',
+    name: 'order',
     component: CreateOrder,
-    meta: {layout: "empty"}
+    meta: { layout: "empty" }
   },
   {
-    path:'/become-driver',
-    name:'become-driver',
+    path: '/become-driver',
+    name: 'become-driver',
     component: BecomDriverVue,
   },
-  
-  { path: "/:pathMatch(.*)*", component: NotFound },
+
+  {
+    path: "/:pathMatch(.*)*", component: NotFound, meta: {
+      layout: "emty"
+    }
+  },
 ];
 
 
@@ -97,17 +111,9 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-router.beforeEach((to, from, next) => {
-  const layout = to.meta.layout || 'default';
 
-  to.matched.forEach((record) => {
-    if (record.meta.layout) {
-      record.meta.layoutComponent = import(`@/views/Order/OrderNavs.vue`);
-    }
-  });
-  to.meta.layoutComponent = layout === 'empty' ? import('@/views/Order/OrderNavs.vue') : Layout;
-  next();
-});
+
+
 
 
 export default router;

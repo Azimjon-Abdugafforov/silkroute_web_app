@@ -107,16 +107,12 @@ import { Icon } from "@iconify/vue";
 import { useRouter } from "vue-router";
 
 
-
-
 const loading = ref(false)
 
 const router = useRouter()
 const dropdownOpen = ref(false);
 const notificationOpen = ref(false);
 const isOpen = ref(false);
-
-
 
 async function  routePush() {
   try {

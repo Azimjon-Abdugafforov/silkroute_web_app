@@ -83,7 +83,7 @@ async function login() {
     const data = await authStore.login(userDetails);
     console.log(data);
     if (data) {
-      router.push("/dashboard");
+      router.push("/my-orders");
     }
 
   } catch (error) {

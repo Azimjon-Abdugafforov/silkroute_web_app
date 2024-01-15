@@ -21,7 +21,9 @@ const logout = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("role");
   localStorage.removeItem("name");
-  window.location.href = "/login";
+  localStorage.removeItem("refresh");
+  localStorage.removeItem("user")
+  window.location.href = "/";
 };
 
 const filteredNavItems = computed(() => {

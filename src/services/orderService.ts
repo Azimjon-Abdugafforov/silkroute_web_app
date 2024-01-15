@@ -11,3 +11,15 @@ export async function postOrder(order:unknown){
   console.log(data)
   return data
 }
+
+export async function getOrderByUser(username: string){
+  console.log(username)
+
+  const {data} = await axios.get("/base-order/by-user", {
+    params:{
+      username
+    }
+  })
+  console.log(data)
+  return data
+}

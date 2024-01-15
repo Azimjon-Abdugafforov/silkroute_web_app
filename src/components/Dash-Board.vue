@@ -1,11 +1,11 @@
 <template>
   <div class="flex h-screen bg-gray-100 font-roboto">
-    <!-- <Sidebar /> -->
+    <Sidebar v-if="role" />
 
     <div class="flex-1 flex flex-col overflow-hidden">
-      <Header />
+      <Header v-if="!role"/>
       <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-        <CarouselView />
+        <CarouselView v-if="!role" />
 
         <div class=" mx-auto ">
           <slot />
@@ -21,4 +21,7 @@ import CarouselView from "./CarouselView.vue";
 import Sidebar from "./Sidebar.vue";
 import Header from "./Header.vue";
 import Footer from "./Footer.vue";
+
+
+const role = localStorage.getItem('role')
 </script>

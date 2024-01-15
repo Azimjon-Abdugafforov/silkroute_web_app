@@ -19,6 +19,7 @@ export interface IOrder {
     lat: number,
     lng: number,
   },
+  status: string,
   endPoint: {
     lat: number,
     lng: number,
