@@ -113,4 +113,40 @@ export const navItems = [
     icon: "mdi:truck",
     role: "ADMIN"
   },
+  {
+    id: 1,
+    title: "Orders",
+    icon: "mdi-order-bool-descending-variant",
+    role: "DRIVER",
+    childNav: [
+      {
+        id: 1,
+        title: "Current Orders",
+        to: "/driver-current-orders",
+        icon: "mdi:application",
+        role: "DRIVER"
+      },
+      {
+        id: 2,
+        title: "Archive Orders",
+        to: "/archive-orders",
+        icon: "mdi:archive",
+        role: "DRIVER"
+      },
+    ]
+  },
+  {
+    id: 1,
+    title: "My statistics",
+    to:"/driver-statistics",
+    icon: "mdi-chart-bar",
+    role: "DRIVER",
+  },
+  {
+    id: 1,
+    title: "My profile",
+    to:"/driver-profile",
+    icon: "mdi-account",
+    role: "DRIVER",
+  }
 ]

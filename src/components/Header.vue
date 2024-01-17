@@ -99,11 +99,10 @@
           />
         </button>
 
-        <!-- <div v-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 z-index w-full h-full border"></div> -->
+        <div v-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 z-index w-full h-full border"></div>
 
         <div id="app">
-          <!-- Your other app content -->
-
+          <!-- Your other app content --> 
           <transition
             enter-active-class="transition duration-150 z-50 ease-out transform"
             enter-from-class="scale-95 opacity-0"
