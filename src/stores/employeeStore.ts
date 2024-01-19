@@ -14,17 +14,12 @@ export const useEmployeeStore = defineStore('employee', ({
     async getEmployees(){
       try {
         const data = await getEmployeeList()
-
       if(data){
         this.userList = data
       }
-     
-
-
       return data
       } catch (error) {
         console.log(error);
-        
       }
       
     }

@@ -88,7 +88,7 @@
     <!-- the end of the sidebar -->
     <div class="flex items-center ml-3">
       <div class="relative">
-        <button
+        <!-- <button
           @click="dropdownOpen = !dropdownOpen"
           class="relative z-10 block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none"
         >
@@ -97,12 +97,30 @@
             src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=296&q=80"
             alt="Your avatar"
           />
-        </button>
+        </button> -->
 
         <div v-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 z-index w-full h-full border"></div>
-
-        <div id="app">
-          <!-- Your other app content --> 
+        <router-link
+                to="/login"
+                class="flex px-4 py-2 rounded-md text-sm text-gray-700 "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                </router-link
+              >
+        <!-- <div id="app">
           <transition
             enter-active-class="transition duration-150 z-50 ease-out transform"
             enter-from-class="scale-95 opacity-0"
@@ -160,29 +178,10 @@
                 </svg>
                 Settings</a
               >
-              <router-link
-                to="/login"
-                class="flex px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-indigo-600 hover:text-white"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  />
-                </svg>
-                Log in</router-link
-              >
+              
             </div>
           </transition>
-        </div>
+        </div> -->
 <!-- 
         <transition
           enter-active-class="transition duration-150 z-50 ease-out transform"
