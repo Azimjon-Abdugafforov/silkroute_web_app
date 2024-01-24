@@ -1,6 +1,6 @@
 <template>
   <div v-if="isVisible" class="global-loader">
-    <transition name="fade" mode="out-in">
+    <transition class="z-50" name="fade" mode="out-in">
       <div class="spinner center">
         <div class="spinner-blade"></div>
         <div class="spinner-blade"></div>

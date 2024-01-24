@@ -49,54 +49,57 @@
   </div>
 
   <BaseLoader :isVisible="loading" />
-  <ForgotPassword :is-visible="isVisible" @update:isVisible="updateIsVisible(isVisible)" /></template>
+  <ForgotPassword :is-visible="isVisible" @update:isVisible="updateIsVisible(isVisible)" />
+</template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, watch, watchEffect } from "vue";
 import BaseLoader from '@/components/BaseLoader.vue'
 import ForgotPassword from "./ForgotPassword.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
 import bgImg from '@/assets/bg.png'
+import { storeToRefs } from "pinia";
+import {useToast} from 'vue-toastification'
 
-
+const toast = useToast()
 const authStore = useAuthStore();
-const loading = ref(false)
+const { resetPass, loading, userDetails } = storeToRefs(authStore)
+
 const forgotPassword = () => {
-  isVisible.value = true
-  console.log(isVisible.value)
+  resetPass.value = true
+  console.log(resetPass.value)
 }
 const isVisible = ref(false)
 const router = useRouter();
-const username = ref("");
-const password = ref("");
 
-const userDetails = reactive({
-  username: username.value,
-  password: password.value,
-});
 
 
 async function login() {
-  try {
-    loading.value = true
-    const data = await authStore.login(userDetails);
-    console.log(data);
-    if (data) {
-      router.push("/my-orders");
+  if (userDetails.value && userDetails.value.username && userDetails.value.username.length > 0 && userDetails.value.password.length> 0) {
+    try {
+      loading.value = true
+      const data = await authStore.login(userDetails.value);
+      if (data?.user) {
+        router.push("/my-orders");
+      }
+    } catch (error) {
+      loading.value = false
     }
-
-  } catch (error) {
-    loading.value = false
+    finally {
+      loading.value = false
+    }
   }
-  finally {
-    loading.value = false
+  else{
+    toast.error("Please fill the gaps!")
   }
 
 }
-const updateIsVisible = (value:boolean) => {
+const updateIsVisible = (value: boolean) => {
   isVisible.value = value;
 };
+
+
 </script>
 <style lang="css" scoped>
 .container {

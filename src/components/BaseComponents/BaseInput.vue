@@ -39,22 +39,17 @@
 import { defineProps, defineEmits, computed, ref } from "vue";
 
 interface Props {
-  // icons: string;
-  // max: number;
-  // min: number;
   label: string;
   modelValue: number | string | object | Array<any>;
   type: string;
   errors: Array<any> | string;
-  // componentClass: string;
-  // accept: Array<any> | object | string;
   disabled: boolean;
   success: string;
 }
 
 const props = defineProps<Props>();
 
-const success = ref<string>(""); // Success message
+const success = ref<string>(""); 
 
 const componentClass = computed(() => {
   const base = [props.disabled ? "cursor-not-allowed" : "cursor-text"];
@@ -62,7 +57,7 @@ const componentClass = computed(() => {
     base.push(props.outline ? "opacity-50" : "opacity-70");
   }
   if (success.value) {
-    base.push("border-green-400"); // Add green border class for success
+    base.push("border-green-400"); 
   }
   return base;
 });
@@ -73,11 +68,4 @@ const updateInput = (event: InputEvent) => {
   emit("update:modelValue", (event.target as HTMLInputElement).value);
 };
 
-// Function to show a success message
-const showSuccessMessage = (message: string) => {
-  success.value = message;
-  setTimeout(() => {
-    success.value = "";
-  }, 3000); // Hide the message after 3 seconds
-};
 </script>
