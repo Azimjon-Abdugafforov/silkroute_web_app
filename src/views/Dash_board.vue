@@ -7,10 +7,9 @@
 
 <script setup lang="ts">
 import FeatureViewsVue from "@/components/FeatureViews.vue";
-import BaseLoader from "@/components/BaseLoader.vue";
+import BaseLoader from '@/components/BaseLoader.vue'
 import { ref } from "vue";
 import Breadcrumb from "../partials/Breadcrumb.vue";
-
 
 
 const role = localStorage.getItem('role')

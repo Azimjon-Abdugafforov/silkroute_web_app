@@ -97,6 +97,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/become-driver',
     name: 'become-driver',
     component: BecomDriverVue,
+    meta: { layout: "empty" }
+
   },
 
   {
