@@ -17,7 +17,7 @@
         :class="[{ 'border-2 border-green-500': props.success }]"
         :accept="props.accept"
         @input="updateInput"
-        class="border px-3 h-12 bg-white p-1 rounded-md text-sm w-auto transition-all focus:border-blue-600 focus:ring focus:ring-opacity-40 focus:ring-blue-500"
+        class="border-2 px-3 h-12 bg-white p-1 rounded-md text-sm w-auto transition-all focus:border-blue-600 focus:ring focus:ring-opacity-40 focus:ring-blue-500"
       />
     </div>
     <p
