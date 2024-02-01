@@ -1,53 +1,55 @@
 <template>
   <div class="bg bg-slate-50" style="height: 100vh;">
     <div class="w-full mx-auto  ">
-      <div class=" w-9/12 mx-auto  ">
-
-        <h1 class=" text-center pt-12 text-3xl font-semibold text-sky-700">We are hiring professional drivers</h1>
+      <form @submit.prevent="submitForm()" class=" w-9/12 mx-auto ">
+        <button @click="goBack()" class="  flex justify-center items-center text-sky-600 ">
+          <Icon icon="mdi-arrow-left"/>
+           <span class="border-b border-b-sky-500">back</span>
+          </button>
+        <h1 class=" text-center  pt-12 text-3xl font-semibold text-sky-700">We are hiring professional drivers</h1>
         <h1 class=" w-9/12 mt-6 text-slate-500 text-xl mx-auto">Driver credentials</h1>
-        <div class="w-9/12 mx-auto  flex ">
+        <div class="w-9/12 mx-auto  flex  ">
           <div class="mx-1 w-6/12 ">
-            <BaseInput class="my-2  border-sky-300" type="text" :disabled="false" v-model:model-value="fullName"
-              label="Full Name" errorMessage="" success="" />
+            <BaseInput class="my-2   border-sky-300" type="text" errors="" :disabled="false"
+              v-model:model-value="fullName" label="Full Name" errorMessage="" success="" />
             <div class="flex justify-between -translate-y-1">
               <div>
                 <label class="block text-sm font-medium text-black mb-2">Date of Birth</label>
-                <Datepicker class="border-2 border-sky-300 rounded-md w-12/12" v-model="dateOfBirth" :clearable="false"
-                  @change="setLoadTime" />
+                <Datepicker class="border-2 border-sky-300 rounded-md w-12/12" v-model="dateOfBirth" :clearable="false" />
               </div>
-              <BaseInput class="w-6/12 border-sky-300" type="number" :disabled="false" v-model:model-value="fullName"
-                label="Years of driving" errorMessage="" success="" />
+              <BaseInput errors="" class="w-6/12 border-sky-300" type="number" :disabled="false"
+                v-model:model-value="yearsOfDriving" label="Years of driving" errorMessage="" success="" />
             </div>
           </div>
           <div class="mx-1 w-6/12">
-            <BaseInput class="my-2 border-sky-300" type="text" :disabled="false" v-model:model-value="phoneNumber"
-              label="Phone Number" errorMessage="" success="" />
+            <BaseInput errors="" class="my-2 border-sky-300" type="text" :disabled="false"
+              v-model:model-value="phoneNumber" label="Phone Number" errorMessage="" success="" />
             <AutoCompleteVue returnData="id" class="w-4/12 h-12" v-model:model-value="birthRegion" label="Region of birth"
               :options="regions" resultNameKey="regionName" />
           </div>
         </div>
         <h1 class=" w-9/12 mt-4 text-slate-500 text-xl mx-auto">Truck details</h1>
         <div class="w-9/12 mx-auto  bg-slate-50">
-          <div class=" flex justify-between">
+          <div class=" flex justify-between ">
             <div class="w-6/12 mx-1">
-              <BaseInput v-model:model-value="truckModel" class="mt-2 border-sky-300" type="text" :disabled="false"
-                label="Truck model" errorMEssage="" success="" />
-              <BaseInput v-model:model-value="truckStatus" class="my-1 border-sky-300" type="text" :disabled="false"
-                label="Truck condition" />
+              <BaseInput errors="" v-model:model-value="truckModel" class="mt-2 border-sky-300" type="text"
+                :disabled="false" label="Truck model" errorMEssage="" success="" />
+              <BaseInput errors="" success="" v-model:model-value="truckStatus" class="my-1 border-sky-300" type="text"
+                :disabled="false" label="Truck condition" />
             </div>
             <div class="w-6/12 mx-1">
-              <BaseInput v-model:model-value="truckNumber" class="mt-2 border-sky-300" type="text" :disabled="false"
-                label="Vehicle number" errorMEssage="" success="" />
-              <BaseInput v-model:model-value="manufacturedYear" class="my-1 border-sky-300" type="text" :disabled="false"
-                label="Manufactured year" />
+              <BaseInput errors="" v-model:model-value="truckNumber" class="mt-2 border-sky-300" type="text"
+                :disabled="false" label="Vehicle number" errorMEssage="" success="" />
+              <BaseInput errors="" success="" v-model:model-value="manufacturedYear" class="my-1 border-sky-300"
+                type="text" :disabled="false" label="Manufactured year" />
             </div>
           </div>
-          <div class="flex justify-between">
-            <div >
+          <div class="flex justify-between flex-wrap ">
+            <div>
               <label class="custum-file-upload" for="file">
                 <div class="icon">
                 </div>
-                <Icon icon="mdi-card-account-details" class="w-20 h-20"/>
+                <img src="../../assets/document.svg" alt="">
                 <div class="text">
                   <span>Upload the drivers license</span>
                 </div>
@@ -55,9 +57,9 @@
               </label>
 
             </div>
-            <div >
+            <div>
               <label class="custum-file-upload" for="file">
-             <Icon icon="mdi-account" class="w-20 h-20"/>
+                <img src="../../assets/person.svg" alt="">
                 <div class="text">
                   <span>Upload the personal image</span>
                 </div>
@@ -65,24 +67,28 @@
               </label>
 
             </div>
-            <div >
+            <div>
               <label class="custum-file-upload" for="file">
-               <Icon icon="mdi-truck-fast" class="w-20 h-20"/>
+                <img src="../../assets/truck-image.svg" alt="">
                 <div class="text">
                   <span>Upload the truck images</span>
                 </div>
                 <input type="file" id="file">
               </label>
-
             </div>
-         
-
           </div>
-
         </div>
+        <div class="mt-10 w-12/12 flex justify-center">
+          <button type="submit"
+            class="border py-2 px-4 uppercase text-xl text-white bg-sky-600 rounded-md ">submit</button>
+        </div>
+        <div class=" w-12/12 flex flex-wrap">
 
-
-      </div>
+          <span class="px-4 bg-red-500 py-2 rounded my-2 mx-4 flex items-center " v-for="e in v$.$errors" :key="e.$uid">
+            <Icon icon="mdi-alert-circle" class="w-8 h-8"></Icon>
+            {{ e.$message }} </span>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -94,9 +100,85 @@ import Datepicker from 'vue3-datepicker';
 import AutoCompleteVue from "@/components/BaseComponents/AutoComplete.vue";
 import { useRegionStore } from "@/stores/regionStore";
 import { storeToRefs } from "pinia";
+import { useVuelidate } from '@vuelidate/core'
+import { required, helpers } from '@vuelidate/validators'
+import router from "@/router";
 import { Icon } from "@iconify/vue";
 
 
+const yearsOfDriving = ref("")
+const birthRegion = ref()
+const fullName = ref("")
+const phoneNumber = ref('+998 ')
+const dateOfBirth = ref(new Date())
+const truckModel = ref("")
+const truckStatus = ref("")
+const truckNumber = ref("")
+const manufacturedYear = ref("")
+
+const rules = {
+  fullName: {
+    required: helpers.withMessage('Full name is required', required),
+  },
+  phoneNumber: {
+    required: helpers.withMessage('Phone number is required', required),
+  },
+  yearsOfDriving: {
+    required: helpers.withMessage('Years of driving is required', required),
+  },
+  birthRegion: {
+    required: helpers.withMessage('Birth region is required', required),
+  },
+  dateOfBirth: {
+    required: helpers.withMessage('Date of birth is required', required),
+  },
+  truckModel: {
+    required: helpers.withMessage('Truck model is required', required),
+
+  },
+  truckStatus: {
+    required: helpers.withMessage('Truck status is required', required),
+  },
+  truckNumber: {
+    required: helpers.withMessage('Truck number is required', required),
+  },
+  manufacturedYear: {
+    required: helpers.withMessage('Manufactured year is required', required),
+  },
+}
+const v$ = useVuelidate(rules, {
+      fullName,
+      phoneNumber,
+      yearsOfDriving,
+      birthRegion,
+      dateOfBirth,
+      truckModel,
+      truckStatus,
+      truckNumber,
+      manufacturedYear
+    })
+
+const validateForm = async () => {
+  try {
+    const isValid = await v$.value.$validate()
+  return isValid
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+const submitForm = async () => {
+  try {
+    const valid = await validateForm()
+    if (valid) {
+      console.log("submited");
+    }
+    console.log(valid);
+  } catch (error) {
+    console.log(error)
+  }
+
+}
 
 const regionStore = useRegionStore()
 const { regions } = storeToRefs(regionStore)
@@ -108,19 +190,14 @@ async function getRegions() {
     console.log(error);
   }
 }
+const goBack = () => {
+  router.back()
+}
 
 
 onMounted(() => {
   getRegions()
 })
-const birthRegion = ref()
-const fullName = ref("")
-const phoneNumber = ref('+998 ')
-const dateOfBirth = ref(new Date())
-const truckModel = ref("")
-const truckStatus = ref("")
-const truckNumber = ref("")
-const manufacturedYear = ref("")
 
 </script>
 

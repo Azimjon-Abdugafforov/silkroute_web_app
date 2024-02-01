@@ -150,7 +150,7 @@
               class="border rounded-md w-12/12"
               v-model="orderData.loadDayTime"
               :clearable="false"
-              @change="setLoadTime"
+            
             />
           </div>
         </div>

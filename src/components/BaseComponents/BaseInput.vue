@@ -19,7 +19,7 @@
         @input="updateInput"
         class="border-2 px-3 h-12 bg-white p-1 rounded-md text-sm w-auto transition-all focus:border-blue-600 focus:ring focus:ring-opacity-40 focus:ring-blue-500"
       />
-    </div>
+    </div>  
     <p
       v-if="props.errors"
       class="text-red-600 text-sm font-medium flex items-end h-6 w-45"
