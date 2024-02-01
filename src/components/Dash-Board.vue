@@ -12,6 +12,7 @@
           <slot />
         </div>
       </main>
+      <ChatWithAi class=" flex justify-end mr-12"></ChatWithAi>
       <Footer />
     </div>
   </div>
@@ -23,6 +24,7 @@ import CarouselView from "./CarouselView.vue";
 import BaseLoader from '@/components/BaseLoader.vue'
 import Sidebar from "./Sidebar.vue";
 import Header from "./Header.vue";
+import ChatWithAi from "./ChatWithAi.vue";
 import Footer from "./Footer.vue";
 
 
