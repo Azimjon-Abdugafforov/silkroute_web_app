@@ -2,8 +2,8 @@ import axios from 'axios';
 import router from '@/router';
 
 // axios.defaults.baseURL = 'http://127.0.0.1:5279/api/v1';
-// axios.defaults.baseURL = 'http://localhost:5279/api/v1'
-axios.defaults.baseURL = 'https://bisp-api.azurewebsites.net/api/v1'
+axios.defaults.baseURL = 'http://localhost:5279/api/v1'
+// axios.defaults.baseURL = 'https://bisp-api.azurewebsites.net/api/v1'
 axios.defaults.headers.common.Accept = "application/json";
 axios.defaults.headers.common["Content-Type"] = "application/json";
 axios.defaults.withCredentials = false;
@@ -26,8 +26,7 @@ axios.interceptors.response.use(
       // toast.error("Серверда хатолик!");
     }
     if (error.response.status === 401) {
-      // toast.error("Фойдаланувчи қайд этилмади қайтадан киринг!");
-      router.push("/page/login");
+      router.push("/login");
     }
     return error;
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <transition class="">
     <button class="chatBtn">
       <svg height="1.6em" fill="white" xml:space="preserve" viewBox="0 0 1000 1000" y="0px" x="0px" version="1.1">
         <path
@@ -9,7 +9,7 @@
       <span class="tooltip">Chat</span>
     </button>
 
-  </div>
+  </transition>
 </template>
 
 <script setup lang="ts">

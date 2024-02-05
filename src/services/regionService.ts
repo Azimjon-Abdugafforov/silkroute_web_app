@@ -13,4 +13,13 @@ export async function getRegions(): Promise<IRegion[]> {
     throw error; 
   }
 }
+export async function getBranches(){
+  try {
+    const {data} = await axios.get('/branch/getAll');
+    return data
+  } catch (error) {
+    console.log('Error fetching branches:', error);
+    
+  }
+}
 

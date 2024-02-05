@@ -58,7 +58,6 @@ import BaseLoader from '@/components/BaseLoader.vue'
 import ForgotPassword from "./ForgotPassword.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
-import bgImg from '@/assets/bg.png'
 import { storeToRefs } from "pinia";
 import {useToast} from 'vue-toastification'
 
@@ -82,6 +81,9 @@ async function login() {
       const data = await authStore.login(userDetails.value);
       if (data?.user) {
         router.push("/my-orders");
+      }
+      else{
+        router.push("/login")
       }
     } catch (error) {
       loading.value = false 
