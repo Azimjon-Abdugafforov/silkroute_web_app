@@ -215,7 +215,7 @@ const v$ = useVuelidate(rules, {
   fullName,
   phoneNumber,
   yearsOfDriving,
-  birthRegion,
+  birthRegion,  
   dateOfBirth,
   truckModel,
   truckStatus,
