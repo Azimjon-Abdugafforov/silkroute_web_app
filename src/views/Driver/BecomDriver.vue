@@ -228,7 +228,7 @@ const validateForm = async () => {
     const isValid = await v$.value.$validate()
     return isValid
   } catch (error) {
-    console.log(error)
+    console.log(error) 
   }
 
 }
