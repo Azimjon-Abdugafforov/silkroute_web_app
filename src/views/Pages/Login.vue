@@ -3,47 +3,49 @@
   <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
     <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 ">
       <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-        <div class="flex items-center justify-center">
-          <img src="../../assets/silkroad.png" class="w-200" />
-        </div>
-        <div class="mt-6 flex flex-col items-center">
-          <div class="w-full flex-1 mt-4">
-            <div class="flex flex-col items-center">
-            </div>
-            <div class="my-8 border-b text-center">
-              <div
-                class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
-                We send you an email with login and password! Sign in here using them!
+        <form @submit.prevent="login()">
+          <div class="flex items-center justify-center">
+            <img src="../../assets/silkroad.png" class="w-200" />
+          </div>
+          <div class="mt-6 flex flex-col items-center">
+            <div class="w-full flex-1 mt-4">
+              <div class="flex flex-col items-center">
+              </div>
+              <div class="my-8 border-b text-center">
+                <div
+                  class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                  We send you an email with login and password! Sign in here using them!
+                </div>
+              </div>
+              <div class="mx-auto max-w-xs">
+                <input required v-model="userDetails.username"
+                  class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  type="text" placeholder="Email" />
+                <input required v-model="userDetails.password"
+                  class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                  type="password" placeholder="Password" />
+                <span @click="forgotPassword()"
+                  class="hover:text-sky-400 w-12/12 flex justify-end text-xs cursor-pointer text-sky-600 mt-1">Forgot
+                  password</span>
+                <button type="submit"
+                  class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                  <span class="ml-3">Sign In</span>
+                </button>
+                <p class="mt-6 text-xs text-gray-600 text-center">
+                  I agree to abide by templatana's
+                  <a href="#" class="border-b border-gray-500 border-dotted">
+                    Terms of Service
+                  </a>
+                  and its
+                  <a href="#" class="border-b border-gray-500 border-dotted">
+                    Privacy Policy
+                  </a>
+                </p>
               </div>
             </div>
-            <div class="mx-auto max-w-xs">
-              <input required v-model="userDetails.username"
-                class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                type="email" placeholder="Email" />
-              <input required v-model="userDetails.password"
-                class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                type="password" placeholder="Password" />
-              <span @click="forgotPassword()"
-                class="hover:text-sky-400 w-12/12 flex justify-end text-xs cursor-pointer text-sky-600 mt-1">Forgot
-                password</span>
-              <button @click="login()"
-                class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-                <span class="ml-3">Sign In</span>
-              </button>
-              <p class="mt-6 text-xs text-gray-600 text-center">
-                I agree to abide by templatana's
-                <a href="#" class="border-b border-gray-500 border-dotted">
-                  Terms of Service
-                </a>
-                and its
-                <a href="#" class="border-b border-gray-500 border-dotted">
-                  Privacy Policy
-                </a>
-              </p>
-            </div>
+            <div class="bg-img"></div>
           </div>
-          <div class="bg-img"></div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -59,7 +61,7 @@ import ForgotPassword from "./ForgotPassword.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
 import { storeToRefs } from "pinia";
-import {useToast} from 'vue-toastification'
+import { useToast } from 'vue-toastification'
 
 const toast = useToast()
 const authStore = useAuthStore();
@@ -75,24 +77,27 @@ const router = useRouter();
 
 
 async function login() {
-  if (userDetails.value && userDetails.value.username && userDetails.value.username.length > 0 && userDetails.value.password.length> 0) {
+  console.log(userDetails.value);
+
+
+  if (userDetails.value && userDetails.value.username && userDetails.value.username.length > 0 && userDetails.value.password.length > 0) {
     try {
       loading.value = true
       const data = await authStore.login(userDetails.value);
       if (data?.user) {
         router.push("/my-orders");
       }
-      else{
+      else {
         router.push("/login")
       }
     } catch (error) {
-      loading.value = false 
+      loading.value = false
     }
     finally {
       loading.value = false
     }
   }
-  else{
+  else {
     toast.error("Please fill the gaps!")
   }
 

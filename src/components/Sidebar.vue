@@ -36,8 +36,8 @@ const filteredNavItems = computed(() => {
 
 <template>
   <div>
-    <div :class="isOpen ? 'block' : 'hidden'" @click="isOpen = false"
-      class="fixed inset-0 z-20 transition-opacity bg-red opacity-50 lg:hidden"></div>
+    <div cla :class="isOpen ? 'block' : 'hidden'" @click="isOpen = false"
+      class="fixed inset-0 z-20 transition-opacity bg-red opacity-50 lg:hidden "></div>
 
     <div :class="isOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
       class="fixed inset-y-0 left-0 z-30 flex items-center justify-between w-64 rounded-r-xl overflow-y-auto transition duration-300 transform bg-blue-800 lg:translate-x-0 lg:static lg:inset-0 flex-col"
@@ -50,6 +50,7 @@ const filteredNavItems = computed(() => {
             <span class="relative translate-y-4 -translate-x-7 ">Express</span>
           </div>
         </div>
+        
         <nav class="mt-10">
           <ul>
             <li v-for="item in filteredNavItems" :key="item.id">
