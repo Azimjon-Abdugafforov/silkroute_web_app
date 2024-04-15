@@ -1,10 +1,11 @@
 <template>
-  <div class="flex h-screen bg-gray-100 font-roboto">
-    <Sidebar :isOpen="isOpen" v-if="role" />
-    <span  v-if="role && visibleIcon " class="z-50" @click="toggleOpen">
+   <span  v-if="role && visibleIcon " class="z-50" @click="toggleOpen">
       <Icon  v-if="!isOpen"  icon="line-md:close-to-menu-alt-transition" class="w-6 h-6"></Icon>
       <Icon v-if="isOpen" :icon="'line-md:menu-to-close-alt-transition'" color="white" class="w-6 h-6"/>
     </span>
+  <div class="flex h-screen bg-gray-100 font-roboto">
+    <Sidebar :isOpen="isOpen" v-if="role" />
+   
 
     
     <div class="flex-1 flex flex-col overflow-hidden">

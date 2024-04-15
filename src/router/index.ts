@@ -16,6 +16,7 @@ import BaseAppViewVue from "@/views/BaseApp/BaseAppView.vue";
 import BaseLoaderVue from "@/components/BaseLoader.vue";
 import SidebarVue from "@/components/Sidebar.vue";
 import MyOrdersVue from "@/views/BaseApp/MyOrders.vue";
+import ActiveOrdersVue from "@/views/BaseApp/ActiveOrders.vue";
 
 
 
@@ -98,7 +99,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'become-driver',
     component: BecomDriverVue,
     meta: { layout: "empty" }
-
+  },
+  {
+    path: '/active-orders',
+    name: 'active-orders',
+    component: ActiveOrdersVue,
   },
 
   {

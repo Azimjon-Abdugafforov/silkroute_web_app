@@ -85,7 +85,13 @@ async function login() {
       loading.value = true
       const data = await authStore.login(userDetails.value);
       if (data?.user) {
+        if(data?.user?.role.role_name === "ADMIN"){
+          router.push("/active-orders")
+        }
+        if(data?.user?.role?.role_name === "USER" )
         router.push("/my-orders");
+        if(data?.user?.role?.role_name === "DRIVER" )
+        router.push("/appended-orders");
       }
       else {
         router.push("/login")

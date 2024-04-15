@@ -2,7 +2,7 @@
   <div v-if="myOrders" class="w-10/12 mx-auto">
 here is my orders:
 <br>
-{{ myOrders[0] }}
+<!-- {{ myOrders[0] }} -->
 <ul v-for="item in myOrders" :key="item.email">
   <li class="border py-2 px-3 my-4 h-36 rounded-md bg-white cursor-pointer flex justify-between ">
     <span class="text-xl flex items-center font-semibold mx-2 my-4">{{ formatDate(item.loadDayTime) }}</span>
