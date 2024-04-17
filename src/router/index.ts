@@ -17,6 +17,7 @@ import BaseLoaderVue from "@/components/BaseLoader.vue";
 import SidebarVue from "@/components/Sidebar.vue";
 import MyOrdersVue from "@/views/BaseApp/MyOrders.vue";
 import ActiveOrdersVue from "@/views/BaseApp/ActiveOrders.vue";
+import DriverOrdersVue from "@/views/BaseApp/Driver/DriverOrders.vue";
 
 
 
@@ -82,7 +83,6 @@ const routes: Array<RouteRecordRaw> = [
     name: "my-orders",
     component: MyOrdersVue,
   },
-
   {
     path: "/blank",
     name: "Blank",
@@ -93,6 +93,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'order',
     component: CreateOrder,
     meta: { layout: "empty" }
+  },
+  {
+    path:'/driver-current-orders',
+    name: 'driver-current-orders',
+    component: DriverOrdersVue,
   },
   {
     path: '/become-driver',

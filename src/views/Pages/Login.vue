@@ -91,7 +91,7 @@ async function login() {
         if(data?.user?.role?.role_name === "USER" )
         router.push("/my-orders");
         if(data?.user?.role?.role_name === "DRIVER" )
-        router.push("/appended-orders");
+        router.push("/driver-current-orders");
       }
       else {
         router.push("/login")

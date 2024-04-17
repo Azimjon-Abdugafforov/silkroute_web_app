@@ -18,14 +18,14 @@
                 <Datepicker class="border-2 border-sky-300 rounded-md w-12/12" v-model="dateOfBirth" :clearable="false" />
               </div>
               <BaseInput errors="" class="w-6/12 border-sky-300" type="number" :disabled="false"
-                v-model:model-value="yearsOfDriving" label="Years of driving" errorMessage="" success="" />
+                v-model:model-value="yearsOfDriving" label="Ye  ars of driving" errorMessage="" success="" />
             </div>
           </div>
           <div class="mx-1 w-6/12">
             <BaseInput errors="" class="my-2 border-sky-300" type="text" :disabled="false"
               v-model:model-value="phoneNumber" label="Phone Number" errorMessage="" success="" />
-            <AutoCompleteVue returnData="id" class="w-4/12 h-12" v-model:model-value="branch" label="Region of birth"
-              :options="branches" resultNameKey="regionName" />
+            <AutoCompleteVue returnData="id" class="w-4/12 h-12" v-model:model-value="branch" label="Choose the proper branch"
+              :options="branches" resultNameKey="branchName" />
           </div>
         </div>
         <h1 class=" w-9/12 mt-4 text-slate-500 text-xl mx-auto">Truck details</h1>
@@ -126,7 +126,7 @@ const truckImages = ref("")
 const personalPhoto = ref("")
 const license = ref("")
 const email = ref("")
-const branch = ref()
+const branch = ref("")
 const regionStore = useRegionStore()
 const { branches } = storeToRefs(regionStore)
 
@@ -165,7 +165,7 @@ const submitForm = async () => {
       truckImages: truckImages.value,
       files: personalPhoto.value,
       license: license.value,
-      branchId: 1,
+      branchId: branch.value,
       email: email.value,
     }
 
@@ -191,7 +191,7 @@ const rules = {
   yearsOfDriving: {
     required: helpers.withMessage('Years of driving is required', required),
   },
-  birthRegion: {
+  branch: {
     required: helpers.withMessage('Birth region is required', required),
   },
   dateOfBirth: {
@@ -215,7 +215,7 @@ const v$ = useVuelidate(rules, {
   fullName,
   phoneNumber,
   yearsOfDriving,
-  birthRegion,  
+  branch,  
   dateOfBirth,
   truckModel,
   truckStatus,
