@@ -68,7 +68,7 @@ export const useOrderStore = defineStore('order', ({
       try {
         const data = await getOrderByUser(username)
         this.myOrders = data
-        console.log(data)
+
         return data
       } catch (error) {
         console.log(error)
