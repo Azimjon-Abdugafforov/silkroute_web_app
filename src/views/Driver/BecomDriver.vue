@@ -24,8 +24,8 @@
           <div class="mx-1 w-6/12">
             <BaseInput errors="" class="my-2 border-sky-300" type="text" :disabled="false"
               v-model:model-value="phoneNumber" label="Phone Number" errorMessage="" success="" />
-            <AutoCompleteVue returnData="id" class="w-4/12 h-12" v-model:model-value="branch" label="Choose the proper branch"
-              :options="branches" resultNameKey="branchName" />
+            <AutoCompleteVue returnData="id" class="w-4/12 h-12" v-model:model-value="branch"
+              label="Choose the proper branch" :options="branches" resultNameKey="branchName" />
           </div>
         </div>
         <h1 class=" w-9/12 mt-4 text-slate-500 text-xl mx-auto">Truck details</h1>
@@ -53,8 +53,7 @@
                 <div class="text">
                   <span>Upload the drivers license</span>
                 </div>
-                <input id="file"
-                  type="file" accept="[ '.xlsx, .xls, .jpeg, .doc, .docx,
+                <input id="file" type="file" accept="[ '.xlsx, .xls, .jpeg, .doc, .docx,
                 .pdf', .tif, .zip, ]" v-on:change="getLicence($event)" />
               </label>
 
@@ -65,10 +64,9 @@
                 <div class="text">
                   <span>Upload the personal image</span>
                 </div>
-                <input 
-                  id="personalImg"
-                  type="file" accept="[ '.xlsx, .xls, .jpeg, .doc, .docx,
-                .pdf', .tif, .zip, ]" v-on:change="getPersonalImage($event)" />              </label>
+                <input id="personalImg" type="file" accept="[ '.xlsx, .xls, .jpeg, .doc, .docx,
+                .pdf', .tif, .zip, ]" v-on:change="getPersonalImage($event)" />
+              </label>
 
             </div>
             <div class="max-sm:w-12/12">
@@ -77,9 +75,9 @@
                 <div class="text">
                   <span>Upload the truck images</span>
                 </div>
-                <input  id="truckImg"
-                  type="file" accept="[ '.xlsx, .xls, .jpeg, .doc, .docx,
-                .pdf', .tif, .zip, ]" v-on:change="getFile($event)" />              </label>
+                <input id="truckImg" type="file" accept="[ '.xlsx, .xls, .jpeg, .doc, .docx,
+                .pdf', .tif, .zip, ]" v-on:change="getTruckImages($event)" />
+              </label>
             </div>
           </div>
         </div>
@@ -110,50 +108,56 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import router from "@/router";
 import { Icon } from "@iconify/vue";
+import {useDriverStore} from "@/stores/driverStore";
 
 
-
-const yearsOfDriving = ref("")
-const birthRegion = ref()
-const fullName = ref("")
-const phoneNumber = ref('+998 ')
+const driverStore = useDriverStore()
+const yearsOfDriving = ref(10)
+const fullName = ref("Test")
+const phoneNumber = ref('+998 999332244')
 const dateOfBirth = ref(new Date())
-const truckModel = ref("")
-const truckStatus = ref("")
-const truckNumber = ref("")
-const manufacturedYear = ref("")
+const truckModel = ref("Model")
+const truckStatus = ref("Good")
+const truckNumber = ref("30N311BA")
+const manufacturedYear = ref("2010")
 const truckImages = ref("")
-const personalPhoto = ref("")
+const file = ref("")
 const license = ref("")
-const email = ref("")
+const email = ref("abdugafforovazimjon775@gmail.com")
 const branch = ref("")
 const regionStore = useRegionStore()
 const { branches } = storeToRefs(regionStore)
 
-const getFile = $event => {
-  [...$event.target.files].forEach(targetFile => {
-    license.value = targetFile;
-  });
-};
-const getPersonalImage = $event => {
-  [...$event.target.files].forEach(targetFile => {
-   
 
-  personalPhoto.value ==targetFile;
+
+const getTruckImages = $event => {
+  [...$event.target.files].forEach(targetFile => {
+    truckImages.value = targetFile;
   });
+  console.log(license.value);
 };
+
 const getLicence = $event => {
   [...$event.target.files].forEach(targetFile => {
     license.value = targetFile;
   });
+  console.log(license.value);
+
+};
+const getPersonalImage = $event => {
+  [...$event.target.files].forEach(targetFile => {    
+    file.value = targetFile;
+  });
+  console.log(file);
+
 };
 
 
 
 const submitForm = async () => {
   try {
+
     const valid = await validateForm()
-    //send data to the server in the formData format and request to the server
     const driverDetails = {
       driverFullName: fullName.value,
       phoneNumber: phoneNumber.value,
@@ -162,16 +166,20 @@ const submitForm = async () => {
       truckStatus: truckStatus.value,
       truckNumber: truckNumber.value,
       manufacturedYear: manufacturedYear.value,
-      truckImages: truckImages.value,
-      files: personalPhoto.value,
-      license: license.value,
-      branchId: branch.value,
+      branchId: branch.value?.id,
       email: email.value,
     }
 
+    const data = new FormData();
+    data.append('driver', driverDetails);
+    data.append('truckImages', truckImages.value);
+    data.append('files', file.value);
+    data.append('license', license.value);
 
+    await driverStore.postDriver(data);
+    
     if (valid) {
-      console.log("submited");
+      console.log(driverDetails);
     }
     console.log(valid);
   } catch (error) {
@@ -210,17 +218,29 @@ const rules = {
   manufacturedYear: {
     required: helpers.withMessage('Manufactured year is required', required),
   },
+  // personalPhoto: {
+  //   required: helpers.withMessage('Personal photo is required', required),
+  // },
+  // license: {
+  //   required: helpers.withMessage('License is required', required),
+  // },
+  // truckImages: {
+  //   required: helpers.withMessage('Truck images is required', required),
+  // }
 }
 const v$ = useVuelidate(rules, {
   fullName,
   phoneNumber,
   yearsOfDriving,
-  branch,  
+  branch,
   dateOfBirth,
   truckModel,
   truckStatus,
   truckNumber,
-  manufacturedYear
+  manufacturedYear,
+  // personalPhoto,
+  // license,
+  // truckImages
 })
 
 const validateForm = async () => {
@@ -228,12 +248,10 @@ const validateForm = async () => {
     const isValid = await v$.value.$validate()
     return isValid
   } catch (error) {
-    console.log(error) 
+    console.log(error)
   }
 
 }
-
-
 
 
 async function getRegions() {

@@ -1,4 +1,5 @@
 export interface IOrder {
+  id: number,
   fromRegion: {
     id: number,
     regionName: string,
@@ -21,14 +22,14 @@ export interface IOrder {
   fromLoadTime: string,
   toLoadTime: string,
   startPoint: {
-    lat: number,
-    lng: number,
+    lat: string,
+    lng: string,
   },
   deliveryDate: string,
   status: string,
   endPoint: {
-    lat: number,
-    lng: number,
+    lat: string,
+    lng: string,
   },
   createdAt: string,
   paymentType: string,

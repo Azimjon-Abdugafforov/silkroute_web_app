@@ -14,6 +14,8 @@ export const useEmployeeStore = defineStore('employee', ({
     async getEmployees(){
       try {
         const data = await getEmployeeList()
+        console.log(data);
+        
       if(data){
         this.userList = data
       }

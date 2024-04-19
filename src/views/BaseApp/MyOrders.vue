@@ -1,21 +1,21 @@
 <template>
   <div v-if="myOrders" class="w-10/12 mx-auto">
     <ul v-for="item in myOrders" :key="item.id">
-      <li class="border py-2 px-3 my-4  rounded-md bg-white cursor-pointer flex justify-between ">
+      <li class="border py-2 px-3 my-4 rounded-md bg-white cursor-pointer flex justify-between">
         <span class="text-xl flex items-center font-semibold mx-2 my-4">{{ formatDate(item.loadDayTime) }}</span>
-        <div class="border w-8/12 text-center flex justify-around items-center" >
-          <div class="border ">
-            <span class=" text-xl">From</span>
+        <div class="border w-8/12 text-center flex justify-around items-center">
+          <div class="border">
+            <span class="text-xl">From</span>
             <p class="text-md">{{ item.fromRegion?.regionName }}</p>
             <span class="text-xs">{{ item.fromDistrict.name }}</span>
           </div>
+          <span class="border">{{ distanceKm }} Km</span>
           <div class="border">
-            <span class=" text-xl ">To</span>
+            <span class="text-xl">To</span>
             <p class="text-md">{{ item.toRegion?.regionName }}</p>
             <span class="text-xs">{{ item.toDistrict.name }}</span>
           </div>
         </div>
-        
         <span class="text-md mx-10 flex items-end font-bold">{{ item.status }}</span>
       </li>
 
@@ -55,7 +55,6 @@
           </GMapInfoWindow>
         </GMapMarker>
       </GMapMap>
-      
     </ul>
   </div>
   <BaseLoader :is-visible="loading"/>
@@ -65,31 +64,43 @@
 import { useOrderStore } from '@/stores/orderStore';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref } from 'vue';
-import BaseLoader from '@/components/BaseLoader.vue'
+import BaseLoader from '@/components/BaseLoader.vue';
 import { IOrder } from '../Order/Steps/types';
+import { addAPIProvider } from '@iconify/vue';
 
-const loading = ref(false)
-const orderStore = useOrderStore()
-const { myOrders } = storeToRefs(orderStore)
+const loading = ref(false);
+const orderStore = useOrderStore();
+const { myOrders } = storeToRefs(orderStore);
+const distanceKm = ref(0);
 
-const getUserOrders = async () => {
+
+
+  const getUserOrders = async () => {
   try {
-    loading.value = true
-    const user = localStorage.getItem("name")
-    console.log(user)
+    loading.value = true;
+    const user = localStorage.getItem("name");
     if (user !== null) {
-      await orderStore.getOrderByUsername(user)
+     const data =  await orderStore.getOrderByUsername(user);
+     distanceKm.value = Math.floor(calculateDistance(data)) 
     } else {
-      console.log("User is not set!!")
+      console.log("User is not set!!");
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
+
+function calculateDistance(order) {
+  
+  const lat1 = parseFloat(order[0].startPoint[0]);
+  const lon1 = parseFloat(order[0].startPoint[1]);
+  const lat2 = parseFloat(order[0].endPoint[0]);
+  const lon2 = parseFloat(order[0].endPoint[1]);
+
+
   const R = 6371; 
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -104,38 +115,16 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   return distance;
 }
 
- function orderDistance(order) {
-  if (!order || !order.startPoint) {
-    console.log("Invalid order object or startPoint is missing.");
-    return 0; 
-  }
-  console.log(order.startPoint);
-  
-
-  const startLat =  parseFloat(order.startPoint[0]);
-  const startLng =  parseFloat(order.startPoint[1]);
-  const endLat = parseFloat(order.endPoint[0]);
-  const endLng = parseFloat(order.endPoint[1]);
-
-  console.log(startLat, startLng, endLat, endLng);
-
-  const distance = calculateDistance(startLat, startLng, endLat, endLng);
-  return distance;
-}
-
-console.log(myOrders.value[0])
-console.log(orderDistance(myOrders.value[0]));
-
-
 
 
 function formatDate(inputDate: string): string {
   const date = new Date(inputDate);
   const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 }
+
 
 function mapCenter(order) {
   const startLat = parseFloat(order.startPoint[0]);
@@ -148,7 +137,8 @@ function mapCenter(order) {
 
   return { lat: centerLat, lng: centerLng };
 }
+
 onMounted(() => {
   getUserOrders();
-})
+});
 </script>
