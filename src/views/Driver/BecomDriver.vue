@@ -8,24 +8,31 @@
         </button>
         <h1 class=" text-center  pt-12 text-3xl font-semibold text-sky-700">We are hiring professional drivers</h1>
         <h1 class=" w-9/12 mt-6 text-slate-500 text-xl mx-auto">Driver credentials</h1>
-        <div class="w-9/12 mx-auto  flex  ">
+        <div class="w-9/12 mx-auto flex">
           <div class="mx-1 w-6/12 ">
             <BaseInput class="my-2   border-sky-300" type="text" errors="" :disabled="false"
               v-model:model-value="fullName" label="Full Name" errorMessage="" success="" />
-            <div class="flex justify-between -translate-y-1">
+            <div class="flex justify-between -tanslate-y-1">
               <div>
                 <label class="block text-sm font-medium text-black mb-2">Date of Birth</label>
                 <Datepicker class="border-2 border-sky-300 rounded-md w-12/12" v-model="dateOfBirth" :clearable="false" />
               </div>
-              <BaseInput errors="" class="w-6/12 border-sky-300" type="number" :disabled="false"
-                v-model:model-value="yearsOfDriving" label="Ye  ars of driving" errorMessage="" success="" />
+
+
             </div>
+             
+                <BaseInput errors="" class="w-12/12 border-sky-300" type="email" :disabled="false"
+                v-model:model-value="email" label="Email address" errorMessage="" success="" />
           </div>
+
           <div class="mx-1 w-6/12">
             <BaseInput errors="" class="my-2 border-sky-300" type="text" :disabled="false"
               v-model:model-value="phoneNumber" label="Phone Number" errorMessage="" success="" />
             <AutoCompleteVue returnData="id" class="w-4/12 h-12" v-model:model-value="branch"
               label="Choose the proper branch" :options="branches" resultNameKey="branchName" />
+              <BaseInput errors="" class="w-6/12 border-sky-300" type="number" :disabled="false"
+                v-model:model-value="yearsOfDriving" label="Years of driving" errorMessage="" success="" />
+            
           </div>
         </div>
         <h1 class=" w-9/12 mt-4 text-slate-500 text-xl mx-auto">Truck details</h1>
@@ -44,7 +51,7 @@
                 type="text" :disabled="false" label="Manufactured year" />
             </div>
           </div>
-          <div class="flex justify-between flex-wrap ">
+          <div class="flex justify-between flex-wrap">
             <div>
               <label class="custum-file-upload max-lg:w-12/12 max-sm:w-12/12" for="file">
                 <div class="icon">
@@ -56,7 +63,6 @@
                 <input id="file" type="file" accept="[ '.xlsx, .xls, .jpeg, .doc, .docx,
                 .pdf', .tif, .zip, ]" v-on:change="getLicence($event)" />
               </label>
-
             </div>
             <div>
               <label class="custum-file-upload max-md:w-12/12 max-sm:w-12/12" for="personalImg">
@@ -67,7 +73,6 @@
                 <input id="personalImg" type="file" accept="[ '.xlsx, .xls, .jpeg, .doc, .docx,
                 .pdf', .tif, .zip, ]" v-on:change="getPersonalImage($event)" />
               </label>
-
             </div>
             <div class="max-sm:w-12/12">
               <label class="custum-file-upload max-sm:w-12/12 max-md:w-12/12" for="truckImg">
@@ -85,8 +90,7 @@
           <button type="submit"
             class="border py-2 px-4 uppercase text-xl text-white bg-sky-600 rounded-md ">submit</button>
         </div>
-        <div class=" w-12/12 flex flex-wrap">
-
+        <div class="w-12/12 flex flex-wrap">
           <span class="px-4 bg-red-500 py-2 rounded my-2 mx-4 flex items-center " v-for="e in v$.$errors" :key="e.$uid">
             <Icon icon="mdi-alert-circle" class="w- h-8"></Icon>
             {{ e.$message }}
@@ -108,7 +112,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import router from "@/router";
 import { Icon } from "@iconify/vue";
-import {useDriverStore} from "@/stores/driverStore";
+import { useDriverStore } from "@/stores/driverStore";
 
 
 const driverStore = useDriverStore()
@@ -123,7 +127,7 @@ const manufacturedYear = ref("2010")
 const truckImages = ref("")
 const file = ref("")
 const license = ref("")
-const email = ref("abdugafforovazimjon775@gmail.com")
+const email = ref("")
 const branch = ref("")
 const regionStore = useRegionStore()
 const { branches } = storeToRefs(regionStore)
@@ -145,7 +149,7 @@ const getLicence = $event => {
 
 };
 const getPersonalImage = $event => {
-  [...$event.target.files].forEach(targetFile => {    
+  [...$event.target.files].forEach(targetFile => {
     file.value = targetFile;
   });
   console.log(file);
@@ -153,15 +157,16 @@ const getPersonalImage = $event => {
 };
 
 
-
 const submitForm = async () => {
   try {
+    // Validate the form
+    const valid = await validateForm();
 
-    const valid = await validateForm()
+    // Prepare driver details
     const driverDetails = {
       driverFullName: fullName.value,
       phoneNumber: phoneNumber.value,
-      dateOfBirth: dateOfBirth.value,
+      dateOfBirth: dateOfBirth.value.toISOString().split('T')[0], 
       truckModel: truckModel.value,
       truckStatus: truckStatus.value,
       truckNumber: truckNumber.value,
@@ -171,23 +176,26 @@ const submitForm = async () => {
     }
 
     const data = new FormData();
-    data.append('driver', driverDetails);
+    data.append('driver.driverFullName', driverDetails.driverFullName);
+    data.append('driver.phoneNumber', driverDetails.phoneNumber);
+    data.append('driver.email', driverDetails.email);
+    data.append('driver.truckModel', driverDetails.truckModel);
+    data.append('driver.truckStatus', driverDetails.truckStatus);
+    data.append('driver.truckNumber', driverDetails.truckNumber);
+    data.append('driver.dateOfBirth', driverDetails.dateOfBirth);
     data.append('truckImages', truckImages.value);
     data.append('files', file.value);
     data.append('license', license.value);
 
     await driverStore.postDriver(data);
-    
+
     if (valid) {
-      console.log(driverDetails);
+      console.log('Driver details:', driverDetails);
     }
-    console.log(valid);
   } catch (error) {
-    console.log(error)
+    console.error('Error submitting form:', error);
   }
-
 }
-
 
 const rules = {
   fullName: {
@@ -200,7 +208,7 @@ const rules = {
     required: helpers.withMessage('Years of driving is required', required),
   },
   branch: {
-    required: helpers.withMessage('Birth region is required', required),
+    required: helpers.withMessage('Branch is required', required),
   },
   dateOfBirth: {
     required: helpers.withMessage('Date of birth is required', required),
@@ -218,7 +226,7 @@ const rules = {
   manufacturedYear: {
     required: helpers.withMessage('Manufactured year is required', required),
   },
-  // personalPhoto: {
+  // file: {
   //   required: helpers.withMessage('Personal photo is required', required),
   // },
   // license: {
@@ -238,7 +246,7 @@ const v$ = useVuelidate(rules, {
   truckStatus,
   truckNumber,
   manufacturedYear,
-  // personalPhoto,
+  // file,
   // license,
   // truckImages
 })
@@ -252,8 +260,6 @@ const validateForm = async () => {
   }
 
 }
-
-
 async function getRegions() {
   try {
     await regionStore.getBranch()

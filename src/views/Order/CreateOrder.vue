@@ -2,18 +2,13 @@
   <div>
     <OrderNavs @orderSubmitted="submitOrder">
       <div class="w-full bg-gray-200 rounded-sm h-2.5 mb-4 dark:bg-slate-300">
-        <div
-          :style="{ width: calculateWidth + '%' }"
-          class="bg-blue-500 h-2.5 rounded-sm dark:bg-sky-500"
-        ></div>
+        <div :style="{ width: calculateWidth + '%' }" class="bg-blue-500 h-2.5 rounded-sm dark:bg-sky-500"></div>
       </div>
       <div v-if="step1">
         <div class="w-12/12 mx-auto">
           <div class="w-6/12 mx-auto">
             <div>
-              <span
-                class="w-full flex justify-center text-[30px] max-sm:text-2xl max-xl:text-2xl max-md:text-md"
-              >
+              <span class="w-full flex justify-center text-[30px] max-sm:text-2xl max-xl:text-2xl max-md:text-md">
                 Where are you moving?
               </span>
             </div>
@@ -22,17 +17,14 @@
               indicates the required fields
             </span>
             <div
-              class="w-12/12 md:w-12/12 xl:w-12/12 flex items-center gap-4 justify-around mx-auto uppercase font-semibold text-slate-700"
-            >
+              class="w-12/12 md:w-12/12 xl:w-12/12 flex items-center gap-4 justify-around mx-auto uppercase font-semibold text-slate-700">
               <div
-                class="border-t-8 my-2 border-sky-500 w-[40vh] flex items-center justify-around h-[10vh] cursor-pointer bg-white"
-              >
+                class="border-t-8 my-2 border-sky-500 w-[40vh] flex items-center justify-around h-[10vh] cursor-pointer bg-white">
                 <img :src="local" alt="Local" />
                 Local deliveries
               </div>
               <div
-                class="border-t-8 border-sky-400 my-2 w-[40vh] flex items-center justify-around text-center h-[10vh] bg-white pointer-events-none opacity-50"
-              >
+                class="border-t-8 border-sky-400 my-2 w-[40vh] flex items-center justify-around text-center h-[10vh] bg-white pointer-events-none opacity-50">
                 <img :src="intern" alt="International" />
                 <div class="flex flex-col items-center">
                   <span>within Central Asia</span>
@@ -43,75 +35,38 @@
 
             <div class="mx-3 flex justify-center">
               <div class="w-4/12 mx-auto">
-                <AutoCompleteVue
-                  @change="getDistrictByRegion()"
-                  returnData="id"
-                  v-model:model-value="orderData.fromRegion"
-                  label="From"
-                  :options="regions"
-                  resultNameKey="regionName"
-                />
+                <AutoCompleteVue @change="getDistrictByRegion()" returnData="id"
+                  v-model:model-value="orderData.fromRegion" label="From" :options="regions" resultNameKey="regionName" />
               </div>
               <div class="w-4/12 mx-auto">
-                <AutoCompleteVue
-                  @change="getDist()"
-                  v-model="orderData.toRegion"
-                  label="To"
-                  :options="regions"
-                  resultNameKey="regionName"
-                />
+                <AutoCompleteVue @change="getDist()" v-model="orderData.toRegion" label="To" :options="regions"
+                  resultNameKey="regionName" />
               </div>
             </div>
             <div class="mx-3 flex justify-center">
               <div class="w-4/12 mx-auto">
-                <AutoCompleteVue
-                  v-model:model-value="orderData.fromDistrict"
-                  label="Select the district"
-                  :options="districtsByRegion"
-                  resultNameKey="name"
-                />
+                <AutoCompleteVue v-model:model-value="orderData.fromDistrict" label="Select the district"
+                  :options="districtsByRegion" resultNameKey="name" />
               </div>
               <div class="w-4/12 mx-auto">
-                <AutoCompleteVue
-                  v-model="orderData.toDistrict"
-                  label="Select the district"
-                  :options="toDistricts"
-                  resultNameKey="name"
-                />
+                <AutoCompleteVue v-model="orderData.toDistrict" label="Select the district" :options="toDistricts"
+                  resultNameKey="name" />
               </div>
             </div>
           </div>
         </div>
 
         <div>
-          <GMapMap
-            class="z-30 w-full mt-4"
-            :center="coords"
-            :zoom="10"
-            map-type-id="terrain"
-            style="height: 48vh"
-          >
-            <GMapMarker
-              :key="0"
-              :position="orderData.startPoint"
-              :clickable="false"
-            >
+          <GMapMap class="z-30 w-full mt-4" :center="coords" :zoom="10" map-type-id="terrain" style="height: 48vh">
+            <GMapMarker :key="0" :position="orderData.startPoint" :clickable="false">
               <GMapInfoWindow :options="{ maxWidth: 200 }">
                 <div>
                   <h3>Your Location</h3>
                 </div>
               </GMapInfoWindow>
             </GMapMarker>
-            <GMapMarker
-              :key="1"
-              :position="marker2Details.position"
-              :draggable="true"
-              @dragend="updateMarker2Position"
-            >
-              <GMapInfoWindow
-                v-if="locationDetails.address !== ''"
-                :options="{ maxWidth: 200 }"
-              >
+            <GMapMarker :key="1" :position="marker2Details.position" :draggable="true" @dragend="updateMarker2Position">
+              <GMapInfoWindow v-if="locationDetails.address !== ''" :options="{ maxWidth: 200 }">
                 <div class="location-details">
                   <h3>Location Details</h3>
                   <p>Address: {{ locationDetails.address }}</p>
@@ -131,40 +86,26 @@
         <div class="w-12/12 mx-auto">
           <div class="w-6/12 mx-auto">
             <div>
-              <span
-                class="w-full flex justify-center text-[30px] max-sm:text-2xl max-xl:text-2xl max-md:text-md"
-                >When do you want to move?</span
-              >
+              <span class="w-full flex justify-center text-[30px] max-sm:text-2xl max-xl:text-2xl max-md:text-md">When do
+                you want to move?</span>
             </div>
-            <span class="-translate-y-1 text-xs flex justify-center"
-              ><span class="text-red-500 text-base -translate-y-1 mr-1">*</span>
-              indicates the required fields</span
-            >
+            <span class="-translate-y-1 text-xs flex justify-center"><span
+                class="text-red-500 text-base -translate-y-1 mr-1">*</span>
+              indicates the required fields</span>
           </div>
           <div class="w-full flex justify-center mt-16">
-            <Icon
-              icon="carbon:calendar"
-              class="w-8 h-6 mr-2 absolute z-50 translate-x-20 mt-2 opacity-70"
-            />
-            <Datepicker
-              class="border rounded-md w-12/12"
-              v-model="orderData.loadDayTime"
-              :clearable="false"
-            
-            />
+            <Icon icon="carbon:calendar" class="w-8 h-6 mr-2 absolute z-50 translate-x-20 mt-2 opacity-70" />
+            <Datepicker class="border rounded-md w-12/12" v-model="orderData.loadDayTime" :clearable="false" />
           </div>
         </div>
       </div>
       <div v-else-if="step3">
         <div class="w-9/12 mx-auto">
           <div
-            class="w-12/12 md:w-12/12 xl:w-12/12 mt-16 flex items-center flex-wrap justify-around mx-auto font-semibold text-slate-700"
-          >
+            class="w-12/12 md:w-12/12 xl:w-12/12 mt-16 flex items-center flex-wrap justify-around mx-auto font-semibold text-slate-700">
             <button @click="changeStat()">
-              <div
-                :class="{ 'border-t-8 border-sky-400': homeType == true }"
-                class="border my-2 hover:bg-sky-200 transition duration-700 w-[40vh] flex items-center justify-around h-[12vh] cursor-pointer bg-white"
-              >
+              <div :class="{ 'border-t-8 border-sky-400': homeType == true }"
+                class="border my-2 hover:bg-sky-200 transition duration-700 w-[40vh] flex items-center justify-around h-[12vh] cursor-pointer bg-white">
                 <img :src="flat" alt="International" />
                 <div class="flex flex-col items-center">
                   <span class="uppercase">House</span>
@@ -173,123 +114,66 @@
               </div>
             </button>
             <button @click="changeStat()">
-              <div
-                :class="{ 'border-t-8 border-sky-400 ': homeType == false }"
-                class="border my-2 hover:bg-sky-200 transition duration-700 w-[40vh] flex items-center justify-around h-[12vh] cursor-pointer bg-white"
-              >
+              <div :class="{ 'border-t-8 border-sky-400 ': homeType == false }"
+                class="border my-2 hover:bg-sky-200 transition duration-700 w-[40vh] flex items-center justify-around h-[12vh] cursor-pointer bg-white">
                 <img :src="home" alt="Local" />
                 <div class="flex flex-col items-center">
                   <span class="uppercase">Flat</span>
-                  <span class="text-xs font-medium"
-                    >(Studio Condo TownHome)</span
-                  >
+                  <span class="text-xs font-medium">(Studio Condo TownHome)</span>
                 </div>
               </div>
             </button>
           </div>
           <div class="w-12/12">
-            <span
-              class="flex justify-center my-12 text-2xl font-semibold from-neutral-700 text-slate-700"
-              >How many rooms?</span
-            >
+            <span class="flex justify-center my-12 text-2xl font-semibold from-neutral-700 text-slate-700">How many
+              rooms?</span>
             <ul class="flex justify-center">
-              <li
-                class="hover:bg-sky-300 cursor-pointer transition duration-700 border rounded-sm px-4 py-2 mx-3"
-                v-for="item in rooms"
-                :key="item.value"
-                @click="selectRoom(item.value)"
-                :class="{ 'bg-sky-500 ': orderData.rooms === item.value }"
-              >
+              <li class="hover:bg-sky-300 cursor-pointer transition duration-700 border rounded-sm px-4 py-2 mx-3"
+                v-for="item in rooms" :key="item.value" @click="selectRoom(item.value)"
+                :class="{ 'bg-sky-500 ': orderData.rooms === item.value }">
                 {{ item.value }}
               </li>
             </ul>
             <div class="border w-12/12 mt-8">
-            <h3 class="text-2xl font-semibold from-neutral-700 text-slate-700 text-center">Services</h3>
+              <h3 class="text-2xl font-semibold from-neutral-700 text-slate-700 text-center">Services</h3>
 
               <ul class="flex justify-center items-center border mt-10">
-                <li @click="selectService(item)" :class="{'bg-sky-300':item.selected == true}" class="hover:bg-sky-300 w-40 h-36 cursor-pointer transition duration-300 border rounded-sm py-2 mx-3 flex flex-col justify-center items-center" v-for="item in services" :key="item.name">
+                <li @click="selectService(item)" :class="{ 'bg-sky-300': item.selected == true }"
+                  class="hover:bg-sky-300 w-40 h-36 cursor-pointer transition duration-300 border rounded-sm py-2 mx-3 flex flex-col justify-center items-center"
+                  v-for="item in services" :key="item.name">
                   <img :src="item.img" alt="">
                   <span class="text-md "> {{ item.name }}</span>
                 </li>
               </ul>
-          </div>
-            <span
-              class="text-2xl flex justify-center my-12 font-semibold from-neutral-700 text-slate-700"
-              >How you are going to pay for it?</span
-            >
-            
+            </div>
+            <span class="text-2xl flex justify-center my-12 font-semibold from-neutral-700 text-slate-700">How you are
+              going to pay for it?</span>
+
             <div class="flex w-12/4 justify-center">
               <div class="flex justify-around items-center mx-2">
-                <input
-                  v-model="orderData.paymentType"
-                  type="radio"
-                  name="paymentType"
-                  id="cash"
-                  value="cash"
-                />
+                <input v-model="orderData.paymentType" type="radio" name="paymentType" id="cash" value="cash" />
                 <label class="mx-2 font-normal text-xl" for="cash">Cash</label>
               </div>
               <div class="flex justify-around items-center mx-2">
-                <input
-                  v-model="orderData.paymentType"
-                  type="radio"
-                  name="paymentType"
-                  id="card"
-                  value="card"
-                />
+                <input v-model="orderData.paymentType" type="radio" name="paymentType" id="card" value="card" />
                 <label class="mx-2 text-xl font-normal" for="card">Card</label>
               </div>
             </div>
           </div>
-        
         </div>
       </div>
       <div v-else-if="step4">
         <div class="mx-auto">
-          <span class="w-full flex justify-center text-2xl"
-            >Contact information <span class="text-red-700">*</span></span
-          >
+          <span class="w-full flex justify-center text-2xl">Contact information <span class="text-red-700">*</span></span>
           <div class="w-4/12 mx-auto mt-16">
-            <BaseInput
-              class="my-2"
-              type="text"
-              :disabled="false"
-              :errors="error"
-              v-model:model-value="orderData.firstName"
-              label="First Name"
-              errorMessage=""
-              success=""
-            />
-            <BaseInput
-              class="my-2"
-              type="text"
-              :disabled="false"
-              :errors="error"
-              v-model:model-value="orderData.lastname"
-              label="Lastname"
-              errorMessage=""
-              success=""
-            />
-            <BaseInput
-              class="my-2"
-              type="text"
-              :disabled="false"
-              :errors="error"
-              v-model:model-value="orderData.phoneNumber"
-              label="Phone Number"
-              errorMessage=""
-              success=""
-            />
-            <BaseInput
-              class="my-2"
-              type="email"
-              :disabled="false"
-              :errors="error"
-              v-model:model-value="orderData.email"
-              label="Email Address"
-              errorMessage=""
-              success=""
-            />
+            <BaseInput class="my-2" type="text" :disabled="false" :errors="error"
+              v-model:model-value="firstName" label="First Name" errorMessage="" success="" />
+            <BaseInput class="my-2" type="text" :disabled="false" :errors="error" v-model:model-value="lastname"
+              label="Lastname" errorMessage="" success="" />
+            <BaseInput class="my-2" type="text" :disabled="false" :errors="error"
+              v-model:model-value="orderData.phoneNumber" label="Phone Number" errorMessage="" success="" />
+            <BaseInput class="my-2" type="email" :disabled="false" :errors="error" v-model:model-value="orderData.email"
+              label="Email Address" errorMessage="" success="" />
           </div>
         </div>
       </div>
@@ -330,15 +214,15 @@ const services = ref([
   {
     name: "Packing/Unpacking",
     img: packing,
-    selected: false,  
- },
-  {
-    name: "An extra car", 
-    img:car_shipping,
-    selected: false  
+    selected: false,
   },
   {
-    name: "Warehouse", 
+    name: "An extra car",
+    img: car_shipping,
+    selected: false
+  },
+  {
+    name: "Warehouse",
     img: ware_house,
     selected: false
   }
@@ -356,6 +240,10 @@ const phoneNumber = ref("+998");
 const error = ref("");
 const firstName = ref("");
 const lastname = ref("");
+
+const fullName = computed(() => `${firstName.value} ${lastname.value}`);
+
+
 const fromRegion = ref({} as IRegion);
 const toRegion = ref({} as IRegion);
 const fromDistrict = ref({} as IDistrict);
@@ -388,14 +276,33 @@ const orderData = ref<IOrder>({
   homeType: homeType.value,
   rooms: selectedRoom.value,
   paymentType: paymentType.value,
-  firstName: firstName.value,
-  lastname: lastname.value,
+  fullName: fullName.value, // Initialize fullName in orderData
   phoneNumber: phoneNumber.value,
   email: email.value,
   startPoint: markerDetails.value.position,
   endPoint: marker2Details.value.position,
   services: []
 });
+
+
+const submitOrder = async () => {
+  try {
+    loading.value = true;
+    console.log("order data:");
+    orderData.value.fullName = fullName.value;  
+    console.log(orderData.value.fullName);
+
+    const data = await orderStore.submitOrder(orderData.value);
+    if (data.responseCode == 200) {
+      orderData.value = {} as IOrder;
+      router.push("/login");
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
 
 
 const selectService = (value: IServices) => {
@@ -416,7 +323,7 @@ const selectService = (value: IServices) => {
       }
     }
   });
-  console.log(orderData.value.services)
+  // console.log(orderData.value.services)
 };
 
 
@@ -500,20 +407,7 @@ const calculateWidth = computed(() => {
 
 
 
-const submitOrder = async () => {
-  try {
-    loading.value = true;
-    const data = await orderStore.submitOrder(orderData.value);
-    if (data.responseCode == 200) {
-      orderData.value = {} as IOrder;
-      router.push("/login");
-    }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
-};
+
 const selectRoom = (value: number) => {
   orderData.value.rooms = value;
 };

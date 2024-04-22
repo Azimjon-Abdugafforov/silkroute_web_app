@@ -44,11 +44,11 @@ export const useOrderStore = defineStore('order', ({
           homeType: order.homeType,
           email: order.email,
           phoneNumber: order.phoneNumber,
-          fullName: order.firstName + " " + order.lastName,
+          fullName: order.fullName,
           services: order.services
         };
-    
-    
+        
+      
         const data = await postOrder(o);
     
         if (data.responseCode === 200) {

@@ -9,6 +9,7 @@ export interface IOrder {
     id : number,
     name: string,
   },
+  fullName: string,
   toRegion: {
     id : number,
     regionName: string,
@@ -38,5 +39,4 @@ export interface IOrder {
   email: string,
   phoneNumber: string,
   firstName: string,
-  lastName: string,
 }
