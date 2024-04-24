@@ -12,7 +12,8 @@ export const useOrderStore = defineStore('order', ({
     step4: false,
     order: {} as IOrder,
     myOrders: {} as [IOrder],
-    allOrders: [] as IOrder[] 
+    allOrders: [] as IOrder[],
+    currentOrder: {} as IOrder,
   }),
 
   actions: {

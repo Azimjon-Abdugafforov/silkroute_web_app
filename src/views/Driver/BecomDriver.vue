@@ -127,7 +127,7 @@ const manufacturedYear = ref("2010")
 const truckImages = ref("")
 const file = ref("")
 const license = ref("")
-const email = ref("")
+const email = ref("email@gmail.com")
 const branch = ref("")
 const regionStore = useRegionStore()
 const { branches } = storeToRefs(regionStore)
@@ -174,7 +174,7 @@ const submitForm = async () => {
       branchId: branch.value?.id,
       email: email.value,
     }
-
+    if (valid) {
     const data = new FormData();
     data.append('driver.driverFullName', driverDetails.driverFullName);
     data.append('driver.phoneNumber', driverDetails.phoneNumber);
@@ -183,14 +183,12 @@ const submitForm = async () => {
     data.append('driver.truckStatus', driverDetails.truckStatus);
     data.append('driver.truckNumber', driverDetails.truckNumber);
     data.append('driver.dateOfBirth', driverDetails.dateOfBirth);
+    data.append('driver.manufacturedYear', driverDetails.manufacturedYear);
+    data.append('driver.branchId', driverDetails.branchId)
     data.append('truckImages', truckImages.value);
     data.append('files', file.value);
     data.append('license', license.value);
-
     await driverStore.postDriver(data);
-
-    if (valid) {
-      console.log('Driver details:', driverDetails);
     }
   } catch (error) {
     console.error('Error submitting form:', error);
@@ -226,15 +224,15 @@ const rules = {
   manufacturedYear: {
     required: helpers.withMessage('Manufactured year is required', required),
   },
-  // file: {
-  //   required: helpers.withMessage('Personal photo is required', required),
-  // },
-  // license: {
-  //   required: helpers.withMessage('License is required', required),
-  // },
-  // truckImages: {
-  //   required: helpers.withMessage('Truck images is required', required),
-  // }
+  file: {
+    required: helpers.withMessage('Personal photo is required', required),
+  },
+  license: {
+    required: helpers.withMessage('License is required', required),
+  },
+  truckImages: {
+    required: helpers.withMessage('Truck images is required', required),
+  }
 }
 const v$ = useVuelidate(rules, {
   fullName,
@@ -246,9 +244,9 @@ const v$ = useVuelidate(rules, {
   truckStatus,
   truckNumber,
   manufacturedYear,
-  // file,
-  // license,
-  // truckImages
+  file,
+  license,
+  truckImages
 })
 
 const validateForm = async () => {

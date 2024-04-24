@@ -1,4 +1,5 @@
 import {postDriver} from "@/services/driverService"
+import { IOrder } from "@/views/Order/Steps/types";
 import { defineStore } from "pinia";
 import {useToast} from 'vue-toastification'
 
@@ -7,6 +8,7 @@ const toast = useToast()
 export const useDriverStore = defineStore("driver", {
   state: () => ({
     driverList: [] as any[],
+    
     isEditing: false
   }),
   actions: {
