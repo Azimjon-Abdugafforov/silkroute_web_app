@@ -34,7 +34,7 @@
 
       </li>
       <BaseModal :btn-name="'Submit'" v-model:isOpen="editing" title="Add pictures and comment   " @cancel-editing="isEditing === false" @action-function="submit()">
-        <template #extraContent>
+          <template #extraContent>
           <div class="w-12/12 mx-auto ">
             <label cla for="file"
               class="custom-file-upload flex flex-col items-center justify-center h-24 md:h-32 w-44 md:w-56 border-2 border-dashed border-gray-300 rounded-lg bg-white p-2 md:p-4 cursor-pointer shadow-md mx-auto ">

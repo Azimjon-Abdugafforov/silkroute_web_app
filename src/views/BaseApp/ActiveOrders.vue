@@ -12,8 +12,10 @@
           <button @click="editOrder(item)">
             <base-icon icon="mdi:pencil" color="green" class="w-6 h-6" />
           </button>
+          <button @click="deletedOrder(item)">
+            <base-icon icon="mdi:delete" color="red" class="w-6 h-6" />
+          </button>
 
-          <Icon icon="mdi:delete" color="red" class="w-6 h-6" />
         </div>
       </template>
       <template #name="name">
@@ -28,6 +30,46 @@
         </div>
       </template>
     </EasyDataTable>
+    <BaseModal :title="'Order details'" v-model:isOpen="editingOrder" :btn-name="'Save'"
+      @cancel-editing="editingOrder == false">
+      <template #extraContent>
+
+
+        {{ orderStore.currentOrder }}
+
+        <GMapMap class="z-30 w-full mt-4" :center="mapCenter(orderStore.currentOrder)"
+          :zoom="mapZoom(orderStore.currentOrder)" map-type-id="terrain" style="height: 48vh"
+          v-if="orderStore.currentOrder && orderStore.currentOrder.startPoint && orderStore.currentOrder.endPoint">
+          <GMapMarker :key="orderStore.currentOrder.id + '_start'"
+            :position="{ lat: parseFloat(orderStore.currentOrder.startPoint[0]), lng: parseFloat(orderStore.currentOrder.startPoint[1]) }"
+            :clickable="false">
+            <GMapInfoWindow :options="{ maxWidth: 200 }">
+              <template #default>
+                <div>
+                  <h1>{{ orderStore.currentOrder.fromRegion?.regionName }}</h1>
+                  <p>{{ orderStore.currentOrder.fromDistrict.name }}</p>
+                </div>
+              </template>
+            </GMapInfoWindow>
+          </GMapMarker>
+          <GMapMarker :key="orderStore.currentOrder.id + '_end'"
+            :position="{ lat: parseFloat(orderStore.currentOrder.endPoint[0]), lng: parseFloat(orderStore.currentOrder.endPoint[1]) }"
+            :clickable="false">
+            <GMapInfoWindow :options="{ maxWidth: 200 }">
+              <template #default>
+                <div>
+                  <h1>{{ orderStore.currentOrder.toRegion?.regionName }}</h1>
+                  <p>{{ orderStore.currentOrder.toDistrict.name }}</p>
+                </div>
+              </template>
+            </GMapInfoWindow>
+          </GMapMarker>
+        </GMapMap>
+
+
+      </template>
+
+    </BaseModal>
   </main>
 </template>
 
@@ -37,10 +79,12 @@ import { storeToRefs } from "pinia";
 import { computed, onMounted, ref } from "vue";
 import type { Header, FilterOption } from "vue3-easy-data-table";
 import { IOrder } from "../Order/Steps/types";
+import BaseModal from '@/components/BaseComponents/BaseModal.vue';
+
 
 const orderStore = useOrderStore();
 const { allOrders } = storeToRefs(orderStore);
-
+const editingOrder = ref(false);
 const showNameFilter = ref(false);
 const nameCriteria = ref("");
 const formattedOrders = computed(() => formatISODateToReadable(allOrders.value));
@@ -54,6 +98,7 @@ const headers: Header[] = [
   { text: "Delivery date", value: "loadDayTime" },
   { text: "Payment type", value: "paymentType" },
   { text: "Status", value: "status" },
+  { text: "Actions", value: "operation" }
 ];
 
 const getOrders = async () => {
@@ -68,9 +113,113 @@ const getOrders = async () => {
 };
 const loading = ref(false)
 
-const editOrder = (item: any) => {
-  console.log("Editing order:", item);
+const editOrder = (item: IOrder) => {
+  const d=  calculateDistance(item);
+  console.log(d);
+  editingOrder.value = true;
+  orderStore.currentOrder = item;
+
+  console.log(orderStore.currentOrder);
+
 };
+function calculateRecommendedCost(order: IOrder): number {
+  let cost = 0;
+
+  // Assuming some factors contribute to the cost
+  const distanceFactor = 0.1; // Example factor for distance
+  const servicesFactor = 0.05; // Example factor for additional services
+  let seasonFactor = 1; // Default season factor
+  
+  // Adjust cost based on season
+  const loadDayTime = new Date(order.loadDayTime);
+  const month = loadDayTime.getMonth();
+  if (month >= 0 && month <= 2) {
+    // Winter season
+    seasonFactor = 1.2; // Increase cost by 20% in winter
+  } else if (month >= 6 && month <= 8) {
+    // Summer season
+    seasonFactor = 0.8; // Decrease cost by 20% in summer
+  }
+  
+  // Calculate distance-related cost
+  // Assuming you have a function to calculate the distance between start and end points
+  const distance = calculateDistance(order);
+  console.log(distance);
+  
+  const distanceCost = distance * distanceFactor;
+  
+  // Calculate cost based on additional services
+  const servicesCost = order.services.length * servicesFactor;
+  
+  // Assuming some other factors contribute to the cost
+  
+  // Sum up all factors to get the total cost
+  cost = (distanceCost + servicesCost) * seasonFactor;
+  
+  // Assuming you may have other factors to consider
+  
+  return cost;
+}
+function calculateDistance(order:IOrder) {
+  console.log(order.startPoint[0]);
+  
+
+const lat1 = parseFloat(order.startPoint[0]);
+const lon1 = parseFloat(order.startPoint[1]);
+const lat2 = parseFloat(order.endPoint[0]);
+const lon2 = parseFloat(order.endPoint[1]);
+
+const R = 6371;
+const dLat = (lat2 - lat1) * (Math.PI / 180);
+const dLon = (lon2 - lon1) * (Math.PI / 180);
+const a =
+  Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  Math.cos((lat1 * Math.PI) / 180) *
+  Math.cos((lat2 * Math.PI) / 180) *
+  Math.sin(dLon / 2) *
+  Math.sin(dLon / 2);
+const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+const distance = R * c;
+
+
+return  distance.toFixed(2);
+}
+
+const deletedOrder = (item: any) => {
+  console.log("Deleting order:", item);
+};
+const submit = () => {
+  console.log("submitting");
+};
+
+function mapCenter(order) {
+  const startLat = parseFloat(order.startPoint[0]);
+  const startLng = parseFloat(order.startPoint[1]);
+  const endLat = parseFloat(order.endPoint[0]);
+  const endLng = parseFloat(order.endPoint[1]);
+
+  const centerLat = (startLat + endLat) / 2;
+  const centerLng = (startLng + endLng) / 2;
+
+  return { lat: centerLat, lng: centerLng };
+}
+function mapZoom(order) {
+  console.log(order);
+
+  const startLat = parseFloat(order.startPoint[0]);
+  const startLng = parseFloat(order.startPoint[1]);
+  const endLat = parseFloat(order.endPoint[0]);
+  const endLng = parseFloat(order.endPoint[1]);
+  const distance = Math.sqrt(Math.pow(endLat - startLat, 4) + Math.pow(endLng - startLng, 4));
+
+  if (distance <= 1) {
+    return 10;
+  } else if (distance <= 10) {
+    return 7;
+  } else {
+    return 8;
+  }
+}
 
 onMounted(getOrders);
 function formatISODateToReadable(arr: IOrder[]): IOrder[] {
