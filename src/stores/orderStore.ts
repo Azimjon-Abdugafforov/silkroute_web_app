@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { IOrder } from "@/views/Order/Steps/types";
-import {postOrder, getOrderByUser, getOrderList} from '@/services/orderService'
+import {postOrder, getOrderByUser, getOrderList, updateOrder} from '@/services/orderService'
 import {useToast} from 'vue-toastification'
 const toast = useToast()
 export const useOrderStore = defineStore('order', ({
@@ -83,24 +83,20 @@ export const useOrderStore = defineStore('order', ({
       } catch (error) {
         return error
       }
-    }
+    },
 
+    async userUpdateOrder(id: number, request: any) {
+      try {
+        const data = await updateOrder(id, request)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+    }
     
 
   },
 }));
 
-function formatISODateToReadable(dateStr: string): string {
-  const date = new Date(dateStr);
-  
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: '2-digit',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
-  };
 
-  return date.toLocaleDateString('en-US', options) + ' ' + date.toLocaleTimeString('en-US', options);
-}
+

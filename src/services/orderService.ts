@@ -20,3 +20,21 @@ export async function getOrderList() {
     const { data } = await axios.get("/base-order/get-all");
     return data
 }
+export async function updateOrder(id: number, request: any) {
+  try {
+
+    console.log(request);
+    
+
+    const { data } = await axios.put(`/base-order/user/update/${id}`, request, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    console.log(data);
+    
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

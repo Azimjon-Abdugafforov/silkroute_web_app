@@ -62,10 +62,10 @@
           >
           </slot>
           <button
-            @click="cancelEditing"
+          @click="actionFunction"
             class="px-6 py-3 font-medium tracking-wide text-white bg-indigo-600 rounded-md hover:bg-indigo-500 focus:outline-none"
           >
-            Action
+            {{ props.btnName }}
           </button>
         </div>
       </div>
@@ -81,8 +81,13 @@ import { ref, getCurrentInstance } from "vue";
 const props = defineProps<{
   isOpen: boolean;
   title: string;
+  btnName: string;
 }>();
 
+
+const actionFunction = () => {
+  context?.emit('action-function');
+}
 
 
 // Access the context using getCurrentInstance()
