@@ -31,10 +31,19 @@ export async function updateOrder(id: number, request: any) {
         'Content-Type': 'multipart/form-data'
       }
     });
-    console.log(data);
     
     return data;
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function setCost(id: number, request: number) {
+  try {
+    const { data } = await axios.put(`/base-order/set-cost/${id}?cost=${request}`,)
+    
+    return data
+  } catch (error) {
+    console.log(error)
   }
 }

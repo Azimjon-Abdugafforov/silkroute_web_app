@@ -3,7 +3,7 @@
     <ul v-for="item in myOrders" :key="item.id">
 
       <li
-        class="py-2 px-3 my-4 rounded-md cursor-pointer flex flex-col md:flex-row justify-between bg-slate-200 shadow-lg">
+          class="py-2 px-3 my-4 rounded-md cursor-pointer flex flex-col md:flex-row justify-between bg-slate-200 shadow-lg">
         <div class="flex flex-col md:flex-row md:items-center md:w-8/12">
           <div class="md:w-1/3 flex flex-col justify-center md:items-start md:px-4">
             <span class="text-sm text-gray-600">From</span>
@@ -15,13 +15,15 @@
             <p class="text-lg font-semibold">{{ item.toRegion?.regionName }}</p>
             <span class="text-xs text-gray-500">{{ item.toDistrict.name }}</span>
           </div>
+          <span class="">Your order cost: <span class="text-green-700 font-bold text-xl">{{ orderCost }}</span>  $</span>
         </div>
+      
         <div class="md:w-4/12 flex justify-between items-center md:px-4">
           <span class="text-xl font-semibold text-gray-700">{{ formatDate(item.loadDayTime) }}</span>
-          <span class="text-md font-semibold text-green-500">{{ distanceKm }} Km</span>
+          <span class="text-md font-semibold text-yellow-500">{{ distanceKm }} Km</span>
           <span class="text-md font-semibold text-blue-500">{{ item.status }}</span>
         </div>
-        <button @click="controlModal()" title="Add New" class="group cursor-pointer outline-none hover:rotate-90 duration-300">
+        <button v-if="!item.comment" @click="controlModal()" title="Add New" class="group cursor-pointer outline-none hover:rotate-90 duration-300">
           <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 24 24"
             class="stroke-zinc-400 fill-none group-hover:fill-zinc-800 group-active:stroke-zinc-200 group-active:fill-zinc-600 group-active:duration-0 duration-300">
             <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
@@ -64,7 +66,7 @@
 
             <div v-if="selectedFiles.length > 0" class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div v-for="(file, index) in selectedFiles" :key="index" class="relative">
-                <img :src="getImageUrl(file)" :alt="file.name" class="w-full h-auto rounded-lg" style="width: 120px;">
+                <img :src="getImageUrl(file)" :alt="file?.name" class="w-full h-auto rounded-lg" style="width: 120px;">
                 <button @click="removeFile(index)"
                   class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 shadow-md">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6">
@@ -77,6 +79,7 @@
           </div>
         </template>
       </BaseModal>
+
 
 
       <GMapMap class="z-30 w-full mt-4" :center="mapCenter(item)" :zoom="mapZoom(item)" map-type-id="terrain"
@@ -126,6 +129,7 @@ import BaseInput from '@/components/BaseComponents/BaseInput.vue';
 import {useToast} from 'vue-toastification'
 
 
+
 const toast = useToast();
 const loading = ref(false);
 const orderStore = useOrderStore();
@@ -136,17 +140,22 @@ const selectedFiles = ref([]);
 const editing = ref(false);
 const user = localStorage.getItem("name");
 const orderId = ref('');
-
-
+const orderCost = ref(0);
 
 
 const getUserOrders = async () => {
   try {
-    
     loading.value = true;
     if (user !== null) {
       const data = await orderStore.getOrderByUsername(user);
-      distanceKm.value = Math.floor(calculateDistance(data))
+      data.forEach((order) => {
+        orderCost.value = calculateOrderCost(order)
+        
+        if(orderCost.value !== 0 && order.totalAmount !== 0){
+          orderStore.setOrderCost(order.id, orderCost.value)
+        }
+      });
+      distanceKm.value =await  Math.floor(calculateDistance(data))
     } else {
       console.log("User is not set!!");
     }
@@ -156,16 +165,56 @@ const getUserOrders = async () => {
     loading.value = false;
   }
 }
+const calculateOrderCost = (order: IOrder): number => {
+  const baseCostPerKm = 0.5; //$0.5 per km
+  distanceKm.value = Math.floor(calculateDistance(order)) 
+  let cost = 0;
+  
+  const loadDayTime = new Date(order.loadDayTime);
+  const month = loadDayTime.getMonth() + 1;
+  if (month >= 11 || month <= 2) {
+    cost += 1.2; 
+  } else {
+    cost += 0.8; 
+  }
+
+  cost +=  distanceKm.value * baseCostPerKm;
+  
+  // if (order.comment && order.comment.toLowerCase().includes("urgent")) {
+  //   cost *= 1.2; // Increase cost by 20% for urgent orders
+  // }
+  const servicesCost = calculateServicesCost(order.services);
+  cost += servicesCost;
+
+  return  Math.floor(parseFloat(cost)); 
+};
+
+const calculateServicesCost = (services: string[]): number => {
+  const serviceCosts: Record<string, number> = {
+    "An extra car": 10,
+    "Packing/Unpacking": 5,
+    "Warehouse": 15,
+  };
+
+  let totalCost = 0;
+  services.forEach(service => {
+    const cost = serviceCosts[service];
+    if (cost) {
+      totalCost += cost;
+    }
+  });
+
+  return totalCost;
+};
 
 
 
-function calculateDistance(order) {
-
-  const lat1 = parseFloat(order[0].startPoint[0]);
-  const lon1 = parseFloat(order[0].startPoint[1]);
-  const lat2 = parseFloat(order[0].endPoint[0]);
-  const lon2 = parseFloat(order[0].endPoint[1]);
-  orderId.value = order[0].id;
+function calculateDistance(order : IOrder) {
+  const lat1 = parseFloat(order.startPoint[0]);
+  const lon1 = parseFloat(order.startPoint[1]);
+  const lat2 = parseFloat(order.endPoint[0]);
+  const lon2 = parseFloat(order.endPoint[1]);
+  orderId.value = order.id;
 
   const R = 6371;
   const dLat = (lat2 - lat1) * (Math.PI / 180);
@@ -265,9 +314,9 @@ const submit = async () => {
 
     data.append('comment', comment.value);
     const res = await orderStore.userUpdateOrder(orderId.value, data);
-    console.log(res);
     if(res.responseCode === 200){
       toast.success('Order updated successfully');
+      getUserOrders();
     }
   } catch (error) {
     console.error(error);
