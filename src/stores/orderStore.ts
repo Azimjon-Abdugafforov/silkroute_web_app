@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { IOrder } from "@/views/Order/Steps/types";
-import {postOrder, startShip, getOrderByUser, getOrderList, updateOrder, setCost} from '@/services/orderService'
+import {postOrder, startShip,finish, getOrderByUser, getOrderList, updateOrder, setCost} from '@/services/orderService'
 import {useToast} from 'vue-toastification'
 const toast = useToast()
 export const useOrderStore = defineStore('order', ({
@@ -93,7 +93,8 @@ export const useOrderStore = defineStore('order', ({
       } catch (error) {
         console.log(error)
       }
-    },
+    },  
+
     async setOrderCost(id : number, cost: number, distance: number){
       try {
         const data = await setCost(id, cost, distance)
@@ -106,6 +107,14 @@ export const useOrderStore = defineStore('order', ({
     async userUpdateOrder(id: number, request: any) {
       try {
         const data = await updateOrder(id, request)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async finishOrder(id: number){
+      try {
+        const data = await finish(id)
         return data
       } catch (error) {
         console.log(error)

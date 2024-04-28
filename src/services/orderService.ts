@@ -54,3 +54,6 @@ export async function startShip(id: number) {
     console.log(error)
   }
 }
+export function finish(id: number) {
+  return axios.put(`/base-order/finish-ship/?id=${id}`)
+}

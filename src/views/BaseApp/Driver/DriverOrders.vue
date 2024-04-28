@@ -24,6 +24,13 @@ const startShippingOrder = async () => {
   await  driverStore.getDriverOrders();
 
 };
+const finishOrder = async () => {
+  const data = await  orderStore.finishOrder(currentDriverOrder.value.id);
+  if(data){
+    toast.success("Order finished successfully");
+  }
+  await  driverStore.getDriverOrders();
+};
 
 function formatDate(inputDate: string): string {
   const date = new Date(inputDate);
@@ -257,10 +264,16 @@ onMounted(() => {
     </GMapMap>
 
     <!-- Button to start shipping -->
-    <div v-if="currentDriverOrder.distance && currentDriverOrder.status !== 'SHIPPING'"
+    <div v-if="currentDriverOrder.distance && currentDriverOrder.status !== 'SHIPPING' && currentDriverOrder.status !== 'FINISHED'"
       class="flex justify-center items-center mt-8">
       <button @click="startShippingOrder()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
         Start Shipping Order
+      </button>
+    </div>
+    <div v-if="currentDriverOrder.distance && currentDriverOrder.status === 'SHIPPING' && currentDriverOrder.status !== 'FINISHED'"
+      class="flex justify-center items-center mt-8">
+      <button @click="finishOrder()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        Finish Shipping Order
       </button>
     </div>
   </div>
