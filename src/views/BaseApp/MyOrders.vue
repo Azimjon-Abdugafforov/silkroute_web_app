@@ -35,7 +35,7 @@
 
 
       </li>
-      <BaseModal :btn-name="'Submit'" v-model:isOpen="editing" title="Add pictures and comment   " @cancel-editing="isEditing === false" @action-function="submit()">
+      <BaseModal :btn-name="'Submit'" v-model:isOpen="editing" title="Add pictures and comment" @cancel-editing="isEditing === false" @action-function="submit()">
           <template #extraContent>
           <div class="w-12/12 mx-auto ">
             <label cla for="file"

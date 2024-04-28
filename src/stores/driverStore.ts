@@ -33,7 +33,7 @@ export const useDriverStore = defineStore("driver", {
       try {
         const userMail  = localStorage.getItem('name') 
         const data = await getDriverOrders(userMail)
-        this.currentDriverOrder = data 
+        this.currentDriverOrder = data?.result 
               
   
         return data

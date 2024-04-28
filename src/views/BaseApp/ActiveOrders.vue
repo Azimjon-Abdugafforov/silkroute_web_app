@@ -60,8 +60,7 @@
 
 
 
-        <!-- {{ orderStore.currentOrder }} -->
-
+]
         <GMapMap class="z-30 w-full mt-4" :center="mapCenter(orderStore.currentOrder)"
           :zoom="mapZoom(orderStore.currentOrder)" map-type-id="terrain" style="height: 48vh"
           v-if="orderStore.currentOrder && orderStore.currentOrder.startPoint && orderStore.currentOrder.endPoint">

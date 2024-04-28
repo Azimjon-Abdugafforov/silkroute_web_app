@@ -43,3 +43,14 @@ export async function setCost(id: number, request: number, distance: number) {
     console.log(error)
   }
 }
+
+export async function startShip(id: number) {
+  try {
+    const { data } = await axios.put(`/base-order/start-ship/?id=${id}`)
+    console.log(data);
+    
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
