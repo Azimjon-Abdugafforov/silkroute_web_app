@@ -1,6 +1,7 @@
 export interface IOrder {
   id: number;
-  employees: any[]; // You may need to specify the type of employees array
+  employees: any[]; 
+  distance: number// You may need to specify the type of employees array
   driver: {
     id: number;
     driverPhoto: string | null;

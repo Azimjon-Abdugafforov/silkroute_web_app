@@ -22,10 +22,6 @@ export async function getOrderList() {
 }
 export async function updateOrder(id: number, request: any) {
   try {
-
-    console.log(request);
-    
-
     const { data } = await axios.put(`/base-order/user/update/${id}`, request, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -38,9 +34,9 @@ export async function updateOrder(id: number, request: any) {
   }
 }
 
-export async function setCost(id: number, request: number) {
+export async function setCost(id: number, request: number, distance: number) {
   try {
-    const { data } = await axios.put(`/base-order/set-cost/${id}?cost=${request}`,)
+    const { data } = await axios.put(`/base-order/set-cost/${id}?cost=${request}&distance=${distance}`,)
     
     return data
   } catch (error) {

@@ -1,7 +1,7 @@
 <template>
   <div class="bg bg-slate-50" style="height: 100vh;">
     <div class="w-full mx-auto  ">
-      <form @submit.prevent="submitForm()" class=" w-9/12 mx-auto ">
+      <form ref="form" @submit.prevent="submitForm()" class=" w-9/12 mx-auto ">
         <button @click="goBack()" class="  flex justify-center items-center text-sky-600 ">
           <Icon icon="mdi-arrow-left" />
           <span class="border-b border-b-sky-500">back</span>
@@ -116,18 +116,18 @@ import { useDriverStore } from "@/stores/driverStore";
 
 
 const driverStore = useDriverStore()
-const yearsOfDriving = ref(10)
-const fullName = ref("Test")
-const phoneNumber = ref('+998 999332244')
-const dateOfBirth = ref(new Date())
-const truckModel = ref("Model")
-const truckStatus = ref("Good")
-const truckNumber = ref("30N311BA")
-const manufacturedYear = ref("2010")
+const yearsOfDriving = ref()
+const fullName = ref("")
+const phoneNumber = ref('+998')
+const dateOfBirth = ref()
+const truckModel = ref("")
+const truckStatus = ref("")
+const truckNumber = ref("")
+const manufacturedYear = ref("")
 const truckImages = ref("")
 const file = ref("")
 const license = ref("")
-const email = ref("email@gmail.com")
+const email = ref("")
 const branch = ref("")
 const regionStore = useRegionStore()
 const { branches } = storeToRefs(regionStore)
@@ -189,6 +189,20 @@ const submitForm = async () => {
     data.append('files', file.value);
     data.append('license', license.value);
     await driverStore.postDriver(data);
+    if(data){
+      fullName.value = "";
+      phoneNumber.value = "";
+      dateOfBirth.value = null;
+      truckModel.value = "";
+      truckStatus.value = "";
+      truckNumber.value = "";
+      manufacturedYear.value = "";
+      branch.value = "";
+      email.value = "";
+      truckImages.value = "";
+      file.value = "";
+      license.value = "";
+    }
     }
   } catch (error) {
     console.error('Error submitting form:', error);

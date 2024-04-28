@@ -12,7 +12,7 @@ import Employee from '@/views/Employee/index.vue'
 import CreateOrder from "@/views/Order/CreateOrder.vue";
 import Layout from '@/views/Order/OrderNavs.vue';
 import BecomDriverVue from "@/views/Driver/BecomDriver.vue";
-import BaseAppViewVue from "@/views/BaseApp/BaseAppView.vue";
+import BaseAppViewVue from "@/views/BaseApp/BaseAppView.vue";''
 import BaseLoaderVue from "@/components/BaseLoader.vue";
 import SidebarVue from "@/components/Sidebar.vue";
 import MyOrdersVue from "@/views/BaseApp/MyOrders.vue";

@@ -120,10 +120,9 @@
 <script setup lang="ts">
 import { useOrderStore } from '@/stores/orderStore';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import {  onMounted, ref } from 'vue';
 import BaseLoader from '@/components/BaseLoader.vue';
 import { IOrder } from '../Order/Steps/types';
-import { addAPIProvider } from '@iconify/vue';
 import BaseModal from '@/components/BaseComponents/BaseModal.vue';
 import BaseInput from '@/components/BaseComponents/BaseInput.vue';
 import {useToast} from 'vue-toastification'
@@ -141,21 +140,29 @@ const editing = ref(false);
 const user = localStorage.getItem("name");
 const orderId = ref('');
 const orderCost = ref(0);
+const {currentOrder} = storeToRefs(orderStore);
 
 
 const getUserOrders = async () => {
   try {
     loading.value = true;
     if (user !== null) {
-      const data = await orderStore.getOrderByUsername(user);
-      data.forEach((order) => {
-        orderCost.value = calculateOrderCost(order)
+      const data : IOrder[] = await orderStore.getOrderByUsername(user);
+      currentOrder.value = data[0]
+      orderCost.value = calculateOrderCost(currentOrder.value)
+      distanceKm.value = Math.floor(calculateDistance(currentOrder.value))
+
+      // data.forEach((order) => {
+      //   orderCost.value = calculateOrderCost(order)
         
-        if(orderCost.value !== 0 && order.totalAmount !== 0){
-          orderStore.setOrderCost(order.id, orderCost.value)
-        }
-      });
-      distanceKm.value =await  Math.floor(calculateDistance(data))
+      //   if(orderCost.value !== 0 && order.totalAmount !== 0){
+      //     orderStore.setOrderCost(order.id, orderCost.value)
+      //   }
+      // });
+      // distanceKm.value =await  Math.floor(calculateDistance(data))
+      if(distanceKm.value !== 0 && orderCost.value !== 0){
+        orderStore.setOrderCost(currentOrder.value.id, orderCost.value, distanceKm.value)
+      }
     } else {
       console.log("User is not set!!");
     }

@@ -267,6 +267,7 @@ interface IServices {
 }
 
 
+
 const orderData = ref<IOrder>({
   fromRegion: fromRegion.value.id,
   toRegion: toRegion.value.id,
@@ -281,7 +282,7 @@ const orderData = ref<IOrder>({
   email: email.value,
   startPoint: markerDetails.value.position,
   endPoint: marker2Details.value.position,
-  services: []
+  services: [],
 });
 
 
@@ -323,7 +324,6 @@ const selectService = (value: IServices) => {
       }
     }
   });
-  // console.log(orderData.value.services)
 };
 
 

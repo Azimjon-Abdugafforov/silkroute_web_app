@@ -47,7 +47,8 @@ export const useOrderStore = defineStore('order', ({
           email: order.email,
           phoneNumber: order.phoneNumber,
           fullName: order.fullName,
-          services: order.services
+          services: order.services,
+          status: "CREATED"
         };
         
       
@@ -85,9 +86,9 @@ export const useOrderStore = defineStore('order', ({
         return error
       }
     },
-    async setOrderCost(id : number, cost: number){
+    async setOrderCost(id : number, cost: number, distance: number){
       try {
-        const data = await setCost(id, cost)
+        const data = await setCost(id, cost, distance)
         return data
       } catch (error) {
         return error

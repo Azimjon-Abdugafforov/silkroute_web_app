@@ -246,6 +246,7 @@ function mapZoom(order) {
 
 onMounted(getOrders);
 function formatISODateToReadable(arr: IOrder[]): IOrder[] {
+  if(arr.length === 0) return arr;
   return arr.map(order => ({
     ...order,
     createdAt: new Date(order.createdAt).toLocaleString("en-US", {
