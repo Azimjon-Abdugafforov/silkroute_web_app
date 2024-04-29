@@ -20,6 +20,7 @@ import ActiveOrdersVue from "@/views/BaseApp/ActiveOrders.vue";
 import DriverOrdersVue from "@/views/BaseApp/Driver/DriverOrders.vue";
 import DriverArchiveList from "@/views/Driver/DriverArchiveList.vue";
 import ClientArchivesVue from "@/views/BaseApp/Client/ClientArchives.vue";
+import AdminArchive from "@/views/BaseApp/Admin/AdminArchive.vue";
 
 
 
@@ -49,6 +50,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "Dashboard",
     component: Dashboard,
   },
+  {
+    path: "/admin-archive-orders",
+    name: "archives",
+    component: AdminArchive,
+  },
+
   {
     path: "/forms",
     name: "Forms",

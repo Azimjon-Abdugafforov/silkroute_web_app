@@ -23,17 +23,10 @@ export const navItems = [
       },
       {
         id:1,
-        title: "Cancelled orders",
-        to: "/cancelled-orders",
+        title: "Archive orders",
+        to: "/admin-archive-orders",
         icon: "mdi:close-box-multiple-outline"
-      },
-      {
-        id: 1,
-        title: "Applications",
-        to: "/applications",
-        icon: "mdi:application",
-        role: "ADMIN"
-      },
+      }
     ]
   },
   {

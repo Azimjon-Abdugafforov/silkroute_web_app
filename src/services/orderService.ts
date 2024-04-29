@@ -84,3 +84,11 @@ export async function getClientArchievList (username: string) {
     console.log(error)
   }
 }
+export async function getAdminArchiveOrders() {
+  try {
+    const { data } = await axios.get(`/base-order/get-admin-archives`)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}

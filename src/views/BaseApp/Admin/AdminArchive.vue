@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ArchiveOrders v-if="orderStore.clientAarchives.result" :loader="loading" :orders="orderStore?.clientAarchives?.result"/>
+    <ArchiveOrders v-if="orderStore.adminArchiveOrders.result" :loader="loading" :orders="orderStore?.adminArchiveOrders?.result"/>
     <BaseLoader :isVisible="loading" />
   </div>
 </template>
@@ -18,7 +18,7 @@ const orderStore = useOrderStore();
 onMounted( async() => {
   try {
    loading.value = true;
-   await orderStore.getClientArchives();
+   await orderStore.getAdminArchiveOrders();
     
   } catch (error) {
     console.log('Error fetching driver archives:', error);

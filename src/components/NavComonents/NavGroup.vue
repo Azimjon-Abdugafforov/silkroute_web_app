@@ -31,7 +31,7 @@
 import { defineProps, ref } from "vue";
 import { INavGroup } from "../types";
 import { Icon } from "@iconify/vue";
-const open = ref(false);
+const open = ref(true);
 
 const openChildren = () => {
   open.value = !open.value;

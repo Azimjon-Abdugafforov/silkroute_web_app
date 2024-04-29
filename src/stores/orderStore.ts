@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { IOrder } from "@/views/Order/Steps/types";
-import {postOrder, getDriverArchive, getClientArchievList, rateOrder, startShip,finish, getOrderByUser, getOrderList, updateOrder, setCost} from '@/services/orderService'
+import {postOrder, getDriverArchive, getClientArchievList, rateOrder, startShip,finish, getOrderByUser, getOrderList, updateOrder, setCost, getAdminArchiveOrders} from '@/services/orderService'
 import {useToast} from 'vue-toastification'
 const toast = useToast()
 export const useOrderStore = defineStore('order', ({
@@ -16,7 +16,8 @@ export const useOrderStore = defineStore('order', ({
     currentOrder: {} as IOrder,
     isEditing: false,
     driverArchives: [] as IOrder[],
-    clientAarchives: [] as IOrder[]
+    clientAarchives: [] as IOrder[],
+    adminArchiveOrders: [] as IOrder[]
   }),
 
   actions: {
@@ -143,6 +144,15 @@ export const useOrderStore = defineStore('order', ({
       try {
         const data = await getClientArchievList(localStorage.getItem('name') as string )
         this.clientAarchives = data
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getAdminArchiveOrders(){
+      try {
+        const data = await getAdminArchiveOrders()
+        this.adminArchiveOrders = data
         return data
       } catch (error) {
         console.log(error)
