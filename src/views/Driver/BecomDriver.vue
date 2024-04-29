@@ -98,6 +98,8 @@
         </div>
       </form>
     </div>
+    <BaseLoader :isVisible="loading" />
+
   </div>
 </template>
 
@@ -113,6 +115,7 @@ import { required, helpers } from '@vuelidate/validators'
 import router from "@/router";
 import { Icon } from "@iconify/vue";
 import { useDriverStore } from "@/stores/driverStore";
+import BaseLoader from "@/components/BaseLoader.vue";
 
 
 const driverStore = useDriverStore()
@@ -131,6 +134,7 @@ const email = ref("")
 const branch = ref("")
 const regionStore = useRegionStore()
 const { branches } = storeToRefs(regionStore)
+const loading = ref(false)
 
 
 
@@ -159,6 +163,7 @@ const getPersonalImage = $event => {
 
 const submitForm = async () => {
   try {
+    loading.value = true
     // Validate the form
     const valid = await validateForm();
 
@@ -175,6 +180,7 @@ const submitForm = async () => {
       email: email.value,
     }
     if (valid) {
+      loading.value = true
     const data = new FormData();
     data.append('driver.driverFullName', driverDetails.driverFullName);
     data.append('driver.phoneNumber', driverDetails.phoneNumber);
@@ -206,6 +212,9 @@ const submitForm = async () => {
     }
   } catch (error) {
     console.error('Error submitting form:', error);
+  }
+  finally{
+    loading.value =false
   }
 }
 

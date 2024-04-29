@@ -43,47 +43,48 @@ export const navItems = [
     icon: "mdi:home",
     role: "USER"
   },
-
   {
     id: 1,
-    title: "Employee",
-    to: "/employee",
-    icon: "mdi:data",
-    role: "ADMIN"
+    title: "Archive Orders",
+    to: "/archive-user-orders",
+    icon: "mdi:archive",
+    role: "USER"
   },
+
+  // {
+  //   id: 1,
+  //   title: "Employee",
+  //   to: "/employee",
+  //   icon: "mdi:data",
+  //   role: "ADMIN"
+  // },
   {
     id: 2,
     header: "Main manu",
   },
-  {
-    id:3,
-    title:"Profile",
-    icon: "mdi:account",
-    to: "/employee",
-    role: "USER"
-  },
-  {
-    id: 3,
-    title: "Cards",
-    icon: "mdi:cards",
-    role: "USER",
-    childNav: [
-      {
-        id: 1,
-        title: "Applications",
-        to: "/applications",
-        icon: "mdi:application",
-        role: "ADMIN"
-      },
-      {
-        id: 2,
-        title: "Products",
-        to: "/products",
-        icon: "mdi:progress-upload",
-        role: "ADMIN"
-      },
-    ],
-  },
+ 
+  // {
+  //   id: 3,
+  //   title: "Cards",
+  //   icon: "mdi:cards",
+  //   role: "USER",
+  //   childNav: [
+  //     {
+  //       id: 1,
+  //       title: "Applications",
+  //       to: "/applications",
+  //       icon: "mdi:application",
+  //       role: "ADMIN"
+  //     },
+  //     {
+  //       id: 2,
+  //       title: "Products",
+  //       to: "/products",
+  //       icon: "mdi:progress-upload",
+  //       role: "ADMIN"
+  //     },
+  //   ],
+  // },
   {
     id: 1,
     title: "Statistics",
@@ -135,18 +136,18 @@ export const navItems = [
       },
     ]
   },
-  {
-    id: 1,
-    title: "My statistics",
-    to:"/driver-statistics",
-    icon: "mdi-chart-bar",
-    role: "DRIVER",
-  },
-  {
-    id: 1,
-    title: "My profile",
-    to:"/driver-profile",
-    icon: "mdi-account",
-    role: "DRIVER",
-  }
+  // {
+  //   id: 1,
+  //   title: "My statistics",
+  //   to:"/driver-statistics",
+  //   icon: "mdi-chart-bar",
+  //   role: "DRIVER",
+  // },
+  // {
+  //   id: 1,
+  //   title: "My profile",
+  //   to:"/driver-profile",
+  //   icon: "mdi-account",
+  //   role: "DRIVER",
+  // }
 ]

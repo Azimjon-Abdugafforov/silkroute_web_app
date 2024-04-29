@@ -4,7 +4,11 @@ export interface IOrder {
   distance: number// You may need to specify the type of employees array
   driver: {
     id: number;
-    driverPhoto: string | null;
+    driverPhoto: {
+      id: number;
+      name: string;
+      path: string;
+    }
     licensePhoto: string | null;
     dateOfBirth: string;
     driverFullName: string;

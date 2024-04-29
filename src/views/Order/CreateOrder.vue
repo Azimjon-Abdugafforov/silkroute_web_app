@@ -102,10 +102,10 @@
       <div v-else-if="step3">
         <div class="w-9/12 mx-auto">
           <div
-            class="w-12/12 md:w-12/12 xl:w-12/12 mt-16 flex items-center flex-wrap justify-around mx-auto font-semibold text-slate-700">
+            class="w-12/12 md:w-12/12 xl:w-12/12 mt-4 flex items-center flex-wrap justify-around mx-auto font-semibold text-slate-700">
             <button @click="changeStat()">
               <div :class="{ 'border-t-8 border-sky-400': homeType == true }"
-                class="border my-2 hover:bg-sky-200 transition duration-700 w-[40vh] flex items-center justify-around h-[12vh] cursor-pointer bg-white">
+                class=" my-2 hover:bg-sky-200 transition duration-700 w-[40vh] flex items-center justify-around h-[10vh]  cursor-pointer bg-white">
                 <img :src="flat" alt="International" />
                 <div class="flex flex-col items-center">
                   <span class="uppercase">House</span>
@@ -115,7 +115,7 @@
             </button>
             <button @click="changeStat()">
               <div :class="{ 'border-t-8 border-sky-400 ': homeType == false }"
-                class="border my-2 hover:bg-sky-200 transition duration-700 w-[40vh] flex items-center justify-around h-[12vh] cursor-pointer bg-white">
+                class=" my-2 hover:bg-sky-200 transition duration-700 w-[40vh] flex items-center justify-around h-[10vh] cursor-pointer bg-white">
                 <img :src="home" alt="Local" />
                 <div class="flex flex-col items-center">
                   <span class="uppercase">Flat</span>
@@ -125,30 +125,29 @@
             </button>
           </div>
           <div class="w-12/12">
-            <span class="flex justify-center my-12 text-2xl font-semibold from-neutral-700 text-slate-700">How many
+            <span class="flex justify-center mt-4 text-2xl font-semibold from-neutral-700 text-slate-700">How many
               rooms?</span>
             <ul class="flex justify-center">
-              <li class="hover:bg-sky-300 cursor-pointer transition duration-700 border rounded-sm px-4 py-2 mx-3"
+              <li class="hover:bg-sky-300 cursor-pointer transition duration-700  rounded-sm px-4 py-2 mx-3"
                 v-for="item in rooms" :key="item.value" @click="selectRoom(item.value)"
                 :class="{ 'bg-sky-500 ': orderData.rooms === item.value }">
                 {{ item.value }}
               </li>
             </ul>
-            <div class="border w-12/12 mt-8">
+            <div class=" w-12/12 mt-4">
               <h3 class="text-2xl font-semibold from-neutral-700 text-slate-700 text-center">Services</h3>
 
-              <ul class="flex justify-center items-center border mt-10">
+              <ul class="flex justify-center items-center  mt-10">
                 <li @click="selectService(item)" :class="{ 'bg-sky-300': item.selected == true }"
-                  class="hover:bg-sky-300 w-40 h-36 cursor-pointer transition duration-300 border rounded-sm py-2 mx-3 flex flex-col justify-center items-center"
+                  class="hover:bg-sky-300 w-40 h-36 cursor-pointer transition duration-300  rounded-sm py-2 mx-3 flex flex-col justify-center items-center"
                   v-for="item in services" :key="item.name">
                   <img :src="item.img" alt="">
                   <span class="text-md "> {{ item.name }}</span>
                 </li>
               </ul>
             </div>
-            <span class="text-2xl flex justify-center my-12 font-semibold from-neutral-700 text-slate-700">How you are
+            <span class="text-2xl flex justify-center mt-4 font-semibold from-neutral-700 text-slate-700">How you are
               going to pay for it?</span>
-
             <div class="flex w-12/4 justify-center">
               <div class="flex justify-around items-center mx-2">
                 <input v-model="orderData.paymentType" type="radio" name="paymentType" id="cash" value="cash" />
@@ -289,9 +288,7 @@ const orderData = ref<IOrder>({
 const submitOrder = async () => {
   try {
     loading.value = true;
-    console.log("order data:");
     orderData.value.fullName = fullName.value;  
-    console.log(orderData.value.fullName);
 
     const data = await orderStore.submitOrder(orderData.value);
     if (data.responseCode == 200) {

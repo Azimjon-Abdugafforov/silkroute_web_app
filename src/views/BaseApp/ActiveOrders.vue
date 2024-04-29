@@ -12,9 +12,7 @@
           <button @click="editOrder(item)">
             <base-icon icon="mdi:pencil" color="green" class="w-6 h-6" />
           </button>
-          <button @click="deletedOrder(item)">
-            <base-icon icon="mdi:delete" color="red" class="w-6 h-6" />
-          </button>
+         
 
         </div>
       </template>
@@ -89,10 +87,7 @@
             </GMapInfoWindow>
           </GMapMarker>
         </GMapMap>
-
-
       </template>
-
     </BaseModal>
   </main>
 </template>
@@ -149,13 +144,9 @@ const editOrder = (item: IOrder) => {
 };
 function calculateRecommendedCost(order: IOrder): number {
   let cost = 0;
-
-  // Assuming some factors contribute to the cost
-  const distanceFactor = 0.1; // Example factor for distance
-  const servicesFactor = 0.05; // Example factor for additional services
+  const distanceFactor = 0.1; 
+  const servicesFactor = 0.05; 
   let seasonFactor = 1; // Default season factor
-
-  // Adjust cost based on season
   const loadDayTime = new Date(order.loadDayTime);
   const month = loadDayTime.getMonth();
   if (month >= 0 && month <= 2) {
@@ -163,35 +154,20 @@ function calculateRecommendedCost(order: IOrder): number {
     seasonFactor = 1.2; // Increase cost by 20% in winter
   } else if (month >= 6 && month <= 8) {
     // Summer season
-    seasonFactor = 0.8; // Decrease cost by 20% in summer
+    seasonFactor = 0.9; // Decrease cost by 10% in summer
   }
-
-  // Calculate distance-related cost
-  // Assuming you have a function to calculate the distance between start and end points
   const distance = calculateDistance(order);
-
   const distanceCost = distance * distanceFactor;
-
-  // Calculate cost based on additional services
   const servicesCost = order.services.length * servicesFactor;
-
-  // Assuming some other factors contribute to the cost
-
-  // Sum up all factors to get the total cost
   cost = (distanceCost + servicesCost) * seasonFactor;
-
-  // Assuming you may have other factors to consider
 
   return cost;
 }
 function calculateDistance(order: IOrder) {
-
-
   const lat1 = parseFloat(order.startPoint[0]);
   const lon1 = parseFloat(order.startPoint[1]);
   const lat2 = parseFloat(order.endPoint[0]);
   const lon2 = parseFloat(order.endPoint[1]);
-
   const R = 6371;
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -205,8 +181,6 @@ function calculateDistance(order: IOrder) {
   const distance = R * c;
   return distance.toFixed(2);
 }
-
-
 
 
 const deletedOrder = (item: any) => {

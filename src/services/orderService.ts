@@ -57,3 +57,30 @@ export async function startShip(id: number) {
 export function finish(id: number) {
   return axios.put(`/base-order/finish-ship/?id=${id}`)
 }
+
+export async function rateOrder(id: number, rate: number) {
+  try {
+    const { data } = await axios.put(`/base-order/rate-order/?id=${id}&rating=${rate}`)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getDriverArchive(username: string) {
+  try {
+    const { data } = await axios.get(`/driver/get-driver-archives/?username=${username}`)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getClientArchievList (username: string) {
+  try {
+    const { data } = await axios.get(`/base-order/get-user-archives/?userName=${username}`)
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}

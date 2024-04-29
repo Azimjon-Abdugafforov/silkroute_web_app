@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { IOrder } from "@/views/Order/Steps/types";
-import {postOrder, startShip,finish, getOrderByUser, getOrderList, updateOrder, setCost} from '@/services/orderService'
+import {postOrder, getDriverArchive, getClientArchievList, rateOrder, startShip,finish, getOrderByUser, getOrderList, updateOrder, setCost} from '@/services/orderService'
 import {useToast} from 'vue-toastification'
 const toast = useToast()
 export const useOrderStore = defineStore('order', ({
@@ -11,10 +11,12 @@ export const useOrderStore = defineStore('order', ({
     step3: false,
     step4: false,
     order: {} as IOrder,
-    myOrders: {} as [IOrder],
+    myOrders: {} as IOrder,
     allOrders: [] as IOrder[],
     currentOrder: {} as IOrder,
     isEditing: false,
+    driverArchives: [] as IOrder[],
+    clientAarchives: [] as IOrder[]
   }),
 
   actions: {
@@ -115,6 +117,32 @@ export const useOrderStore = defineStore('order', ({
     async finishOrder(id: number){
       try {
         const data = await finish(id)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async rateOrder(id: number, rate: number){  
+      try {
+        const data = await rateOrder(id, rate)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getDriverArchives(){
+      try {
+        const data = await getDriverArchive(localStorage.getItem('name') as string )
+        this.driverArchives = data
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getClientArchives(){
+      try {
+        const data = await getClientArchievList(localStorage.getItem('name') as string )
+        this.clientAarchives = data
         return data
       } catch (error) {
         console.log(error)

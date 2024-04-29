@@ -18,6 +18,8 @@ import SidebarVue from "@/components/Sidebar.vue";
 import MyOrdersVue from "@/views/BaseApp/MyOrders.vue";
 import ActiveOrdersVue from "@/views/BaseApp/ActiveOrders.vue";
 import DriverOrdersVue from "@/views/BaseApp/Driver/DriverOrders.vue";
+import DriverArchiveList from "@/views/Driver/DriverArchiveList.vue";
+import ClientArchivesVue from "@/views/BaseApp/Client/ClientArchives.vue";
 
 
 
@@ -54,6 +56,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: { layout: '' }
   },
   {
+    path: "/archive-user-orders",
+    name: "userArchive",
+    component: ClientArchivesVue,
+  },
+  {
     path: "/cards",
     name: "Cards",
     component: Card,
@@ -87,6 +94,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/blank",
     name: "Blank",
     component: Blank,
+  },
+  {
+    path: "/archive-orders",
+    name: "Archives",
+    component: DriverArchiveList,
   },
   {
     path: '/create-order',

@@ -7,7 +7,7 @@ import { useOrderStore } from '@/stores/orderStore';
 import BaseModal from "@/components/BaseComponents/BaseModal.vue";
 import { Icon } from '@iconify/vue';
 import {useToast} from "vue-toastification"
-
+import BaseLoader from '@/components/BaseLoader.vue';
 const toast = useToast();
 const driverStore = useDriverStore();
 const orderStore = useOrderStore();
@@ -17,19 +17,39 @@ const { currentDriverOrder } = storeToRefs(driverStore);
 const editing = ref(false);
 
 const startShippingOrder = async () => {
+  try {
+    loading.value = true;
   const data = await  orderStore.startShippingOrder(currentDriverOrder.value.id);
   if(data === "Ship started"){
     toast.success("Shipping started successfully");
   }
   await  driverStore.getDriverOrders();
+    
+  } catch (error) {
+    console.log(error);
+  }
+  finally{
+    loading.value = false;  
+  }
+ 
 
 };
 const finishOrder = async () => {
-  const data = await  orderStore.finishOrder(currentDriverOrder.value.id);
+  try {
+    loading.value = true;
+    const data = await  orderStore.finishOrder(currentDriverOrder.value.id);
   if(data){
     toast.success("Order finished successfully");
   }
   await  driverStore.getDriverOrders();
+    
+  } catch (error) {
+    console.log(error);
+  }
+  finally{
+    loading.value = false;
+  }
+ 
 };
 
 function formatDate(inputDate: string): string {
@@ -51,6 +71,8 @@ function formatTime(inputDate: string): string {
 
   return `${days} days ${hours} hours ${minutes} minutes`;
 }
+
+const loading = ref(false);
 
 function mapCenter(order: IOrder) {
   const startLat = parseFloat(order.startPoint[0]);
@@ -100,8 +122,11 @@ onMounted(() => {
   <div
     class="w-11/12 mx-auto rounded-xl border shadow-lg mt-4 max-sm:mt-2 p-6 bg-white transition duration-300 ease-in-out">
     <span class="text-2xl font-bold">Order details</span>
+    <div v-if="!currentDriverOrder" class="w-12/12 mx-auto border">
+      <span class="text-md" >You do not have orders yet! Once you get order you will be notified via email)</span> 
+    </div>
 
-    <div v-if="currentDriverOrder.client" class="mt-2 p-4 border-b border-gray-300">
+    <div v-if="currentDriverOrder?.client" class="mt-2 p-4 border-b border-gray-300">
       <h2 class="text-xl font-semibold">Client Information</h2>
       <div class="flex flex-col sm:flex-row justify-between mt-2">
         <div class="mb-2 sm:mb-0">
@@ -129,14 +154,19 @@ onMounted(() => {
             <div v-for="image in currentDriverOrder?.productImages" :key="image.path"
               class="rounded-lg overflow-hidden relative w-full">
               <div class="aspect-w-1 aspect-h-1 transition-transform hover:scale-105">
-                <img :src="`http://localhost:5279/${image?.path}`" alt="Product Image"
+                <img :src="`https://localhost:5279/${image?.path}`" alt="Product Image"
                   class="w-full h-full object-cover" />
               </div>
+              <div>Client comment: <br>
+                <span class=" text-green-400">   {{ currentDriverOrder?.comment }}</span>
+             </div>
             </div>
           </div>
         </div>
       </template>
     </BaseModal>
+    <BaseLoader :is-visible="loading" />
+
 
 
 
@@ -155,7 +185,6 @@ onMounted(() => {
           <div class="w-2/12">Time until loading</div>
           <div class="w-2/12">See images</div>
         </div>
-
         <div v-if="!currentDriverOrder.fromLoadTime" class="w-12/12 mt-12 mx-auto ">
           <div class="loader">
             <div>
@@ -206,6 +235,8 @@ onMounted(() => {
             </div><span>Loading</span>
           </div>
         </div>
+
+     
         <!-- Order detail information -->
         <div v-if="currentDriverOrder.createdAt" class="flex flex-col bg-white divide-y divide-gray-200">
           <div class="flex flex-row items-center p-4 transition duration-200 hover:bg-gray-100">
@@ -234,7 +265,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <GMapMap v-if="currentDriverOrder.startPoint" class="z-30 w-full mt-2" :center="mapCenter(currentDriverOrder)"
+    <GMapMap v-if="currentDriverOrder.startPoint && !loading" class="z-30 w-full mt-2" :center="mapCenter(currentDriverOrder)"
       :zoom="mapZoom(currentDriverOrder)" map-type-id="terrain" style="height: 48vh">
       <GMapMarker :key="currentDriverOrder.id + '_start'"
         :position="{ lat: parseFloat(currentDriverOrder?.startPoint[0]), lng: parseFloat(currentDriverOrder.startPoint[1]) }"
@@ -280,16 +311,7 @@ onMounted(() => {
 </template>
 
 <style src="./style.css" scoped>
-/* Custom styles for the loader */
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.loader svg {
-  animation: rotate 2s linear infinite;
-}
 
 @keyframes rotate {
   from {
@@ -304,4 +326,6 @@ onMounted(() => {
 img {
   transition: transform 0.3s ease-in-out;
 }
+
+
 </style>
