@@ -69,17 +69,11 @@ const { resetPass, loading, userDetails } = storeToRefs(authStore)
 
 const forgotPassword = () => {
   resetPass.value = true
-  console.log(resetPass.value)
 }
 const isVisible = ref(false)
 const router = useRouter();
 
-
-
 async function login() {
-  console.log(userDetails.value);
-
-
   if (userDetails.value && userDetails.value.username && userDetails.value.username.length > 0 && userDetails.value.password.length > 0) {
     try {
       loading.value = true

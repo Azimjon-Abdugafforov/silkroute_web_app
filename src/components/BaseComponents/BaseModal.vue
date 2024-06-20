@@ -27,9 +27,7 @@
         </svg>
         <span class="text-sm">(Esc)</span>
       </div>
-      <!-- Add margin if you want to see some of the overlay behind the modal-->
       <div class="px-6 py-4 text-left modal-content">
-        <!-- Title -->
         <div class="flex items-center justify-between pb-3">
           <p class="text-2xl font-bold">{{ title }}</p>
           <div class="z-50 cursor-pointer modal-close" @click="cancelEditing">
@@ -47,7 +45,6 @@
           </div>
         </div>
         <slot name="extraContent"></slot>
-        <!-- Modal Footer -->
         <div class="flex justify-end pt-2">
           <button
             @click="cancelEditing"

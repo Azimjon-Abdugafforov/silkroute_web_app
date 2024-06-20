@@ -26,12 +26,6 @@
     >
       {{ props.errors }}
     </p>
-    <!-- <p
-      v-if="props.success"
-      class="text-green-600 text-sm font-medium flex items-end h-6 w-45"
-    >
-      {{ props.success }}
-    </p> -->
   </div>
 </template>
 

@@ -92,7 +92,7 @@
         </div>
         <div class="w-12/12 flex flex-wrap">
           <span class="px-4 bg-red-500 py-2 rounded my-2 mx-4 flex items-center " v-for="e in v$.$errors" :key="e.$uid">
-            <Icon icon="mdi-alert-circle" class="w- h-8"></Icon>
+            <Icon icon="mdi-alert-circle" class="w- h-8"/>
             {{ e.$message }}
           </span>
         </div>
